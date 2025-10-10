@@ -8,12 +8,21 @@ import { mainWindow, quitApp } from "./window";
 // internal tray state
 let tray: Tray = null;
 
-// load the tray icon
-const trayIcon = nativeImage.createFromDataURL(trayIconAsset);
+// Create and resize tray icon for macOS
+function createTrayIcon() {
+  const image = nativeImage.createFromDataURL(trayIconAsset);
+  const resized = image.resize({ width: 20, height: 20 });
+
+  // Mark as template image so it adapts to dark/light mode
+  resized.setTemplateImage(true);
+
+  return resized;
+}
 
 // trayIcon.setTemplateImage(true);
 
 export function initTray() {
+  const trayIcon = createTrayIcon();
   tray = new Tray(trayIcon);
   updateTrayMenu();
   tray.setToolTip("Stoat for Desktop");

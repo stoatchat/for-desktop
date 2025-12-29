@@ -5,7 +5,8 @@
   "main": ".vite/build/main.js",
   "repository": "stoatchat/desktop",
   "scripts": {
-    "start": "electron-forge start",
+    "start": "./start.sh",
+    "start:forge": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",

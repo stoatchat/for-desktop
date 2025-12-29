@@ -1,6 +1,6 @@
 import dbus from "@homebridge/dbus-native";
 
-import { NativeImage, app, nativeImage } from "electron";
+import { NativeImage, app, ipcMain, nativeImage } from "electron";
 
 import { mainWindow } from "./window";
 
@@ -21,7 +21,7 @@ export async function setBadgeCount(count: number) {
         nativeIcons[count] = nativeImage.createFromDataURL(
           await import(
             `../../assets/desktop/badges/${Math.min(count, 10)}.ico?asset`
-          ),
+          ).then((asset) => asset.default),
         );
 
       mainWindow.setOverlayIcon(
@@ -65,3 +65,5 @@ export async function setBadgeCount(count: number) {
       break;
   }
 }
+
+ipcMain.on("setBadgeCount", (_event, count: number) => setBadgeCount(count));

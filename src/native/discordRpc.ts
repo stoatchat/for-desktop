@@ -8,6 +8,9 @@ let rpc: Client;
 export async function initDiscordRpc() {
   if (!config.discordRpc) return;
 
+  // clean up existing client if one exists
+  rpc?.removeAllListeners();
+
   try {
     rpc = new Client({ transport: "ipc" });
 

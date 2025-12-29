@@ -5,7 +5,7 @@ import { ipcMain } from "electron";
 import { mainWindow } from "./window";
 
 export const autoLaunch = new AutoLaunch({
-  name: "Revolt",
+  name: "Stoat",
 });
 
 ipcMain.on("isAutostart?", () =>

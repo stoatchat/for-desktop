@@ -16,8 +16,7 @@ export async function initDiscordRpc() {
         state: "stoat.chat",
         details: "Chatting with others",
         largeImageKey: "qr",
-        // largeImageText: "Communication is critical – use Revolt.",
-        largeImageText: "",
+        largeImageText: "Join Stoat!",
         buttons: [
           {
             label: "Join Stoat",

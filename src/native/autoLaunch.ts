@@ -14,6 +14,10 @@ ipcMain.on("isAutostart?", () =>
     .then((enabled) => mainWindow.webContents.send("isAutostart", enabled)),
 );
 
-ipcMain.on("setAutostart", (state) =>
-  state ? autoLaunch.enable() : autoLaunch.disable(),
-);
+ipcMain.on("setAutostart", (_event, state: boolean) => {
+  if (state) {
+    autoLaunch.enable();
+  } else {
+    autoLaunch.disable();
+  }
+});

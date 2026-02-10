@@ -151,6 +151,11 @@ const config: ForgeConfig = {
           config: "vite.preload.config.ts",
           target: "preload",
         },
+        {
+          entry: "public/homeserver.html",
+          config: "vite.preload.config.ts",
+          target: "preload",
+        }
       ],
       renderer: [],
     }),

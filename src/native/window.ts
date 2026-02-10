@@ -17,13 +17,6 @@ import { updateTrayMenu } from "./tray";
 // global reference to main window
 export let mainWindow: BrowserWindow;
 
-// currently in-use build
-export const BUILD_URL = new URL(
-  app.commandLine.hasSwitch("force-server")
-    ? app.commandLine.getSwitchValue("force-server")
-    : /*MAIN_WINDOW_VITE_DEV_SERVER_URL ??*/ "https://beta.revolt.chat",
-);
-
 // internal window state
 let shouldQuit = false;
 
@@ -31,6 +24,15 @@ let shouldQuit = false;
 const windowIcon = nativeImage.createFromDataURL(windowIconAsset);
 
 // windowIcon.setTemplateImage(true);
+
+ipcMain.on("updateHomeserver", (e, args) => {
+  config.homeserver = args;
+  config.sync();
+
+  setTimeout(() => {
+    mainWindow.loadURL(config.homeserver);
+  }, 2000);
+});
 
 /**
  * Create the main application window
@@ -63,8 +65,15 @@ export function createMainWindow() {
   }
 
   // load the entrypoint
-  mainWindow.loadURL(BUILD_URL.toString());
-
+  if(config.homeserver == "") //user has yet to set a host
+  {
+    mainWindow.loadFile(join(__dirname, "public/homeserver.html"));
+  }
+  else
+  {
+    mainWindow.loadURL(config.homeserver);
+  }
+  
   // minimise window to tray
   mainWindow.on("close", (event) => {
     if (!shouldQuit && config.minimiseToTray) {

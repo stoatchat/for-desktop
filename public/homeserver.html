@@ -1,0 +1,182 @@
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#000000">
+  <title>Stoat Desktop</title>
+
+  <style>
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      background: #191919;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    :host {
+      --font-fallback: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+      -webkit-text-size-adjust: 100%;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      -moz-tab-size: 4;
+      tab-size: 4;
+      -webkit-tap-highlight-color: transparent;
+      line-height: 1.5;
+      font-family: var(--global-font-body, var(--font-fallback))
+    }
+
+    *,
+    ::backdrop,
+    ::file-selector-button,
+    :after,
+    :before {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      border-width: 0;
+      border-style: solid;
+      border-color: var(--global-color-border, currentColor)
+    }
+
+    body {
+      height: 100%;
+      line-height: inherit
+    }
+
+    svg {
+      display: block;
+      vertical-align: middle
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      text-wrap: balance;
+      font-size: inherit;
+      font-weight: inherit
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p {
+      overflow-wrap: break-word
+    }
+
+    ::file-selector-button,
+    button,
+    input:where([type=button], [type=reset], [type=submit]) {
+      appearance: button;
+      -webkit-appearance: button
+    }
+
+    ::file-selector-button,
+    button,
+    input,
+    select {
+      font: inherit;
+      font-feature-settings: inherit;
+      font-variation-settings: inherit;
+      letter-spacing: inherit;
+      color: inherit;
+      background: var(--colors-transparent)
+    }
+
+    ::placeholder {
+      opacity: 1;
+      --placeholder-fallback: color-mix(in srgb, currentColor 50%, transparent);
+      color: var(--global-color-placeholder, var(--placeholder-fallback))
+    }
+
+    a {
+      color: inherit;
+      text-decoration: inherit
+    }
+
+    b {
+      font-weight: bolder
+    }
+
+    ::-webkit-search-cancel-button,
+    ::-webkit-search-decoration {
+      -webkit-appearance: none
+    }
+
+    ::-webkit-inner-spin-button,
+    ::-webkit-outer-spin-button {
+      height: auto
+    }
+
+    :-moz-ui-invalid {
+      box-shadow: none
+    }
+
+    :-moz-focusring {
+      outline: auto
+    }
+
+    [hidden] {
+      display: none !important
+    }
+  </style>
+
+  <script>
+    function submitHomeserver(e) {
+      desktopConfig.setHomeserver(e.target[0].value);
+    }
+  </script>
+</head>
+
+<body style="background: #1a110f; color: #f1dfdb;">
+  <div style="height: 29px; background: #a08c88; padding: 5px;">
+    <div style="user-select: none; app-region: drag; width: calc(100% - 100px); height: 100%; float: left;"></div>
+    <div style="width: 100px; float: right;">
+      <a style="float: right;" onclick="native.close()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 -960 960 960">
+          <path d="m249-207-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231z"></path>
+        </svg>
+      </a>
+      <a style="float: right; margin-right: 10px;" onclick="native.maximise()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 -960 960 960">
+          <path d="M200-200v-240h60v180h180v60zm500-320v-180H520v-60h240v240z"></path>
+        </svg>
+      </a>
+      <a style="float: right; margin-right: 10px;" onclick="native.minimise()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 -960 960 960">
+          <path d="M240-120v-60h481v60z"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+  <div
+    style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); background: #271d1b; border-radius: 2rem; width: 25%; height: 33%; padding: 30px;">
+    <div>
+      <span style="font-size: 1.5rem;">Hello!</span>
+      <p style="font-weight: bold; margin-top: 5px;">Connect to a Stoat Server</p>
+    </div>
+    <form onsubmit="submitHomeserver(event)">
+      <div>
+        <input type="text" name="server" required="" placeholder="Server Address" label="Server"
+          style="background: #3d3230; height: 50px; width: 100%; padding: 10px; color: #ffb4ab; border-bottom: 1px solid #ffb4ab; margin-top: 5px;"
+          value="https://beta.revolt.chat" />
+        <button type="submit"
+          style="background: #ffb4a4; margin-left: 50%; transform: translate(-50%); height: 40px; width: 200px; border-radius: 1rem; margin-top: 20px; color: #561f12; font-weight: bold;">
+          Connect
+        </button>
+      </div>
+    </form>
+  </div>
+</body>
+
+</html>

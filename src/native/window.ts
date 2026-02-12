@@ -62,6 +62,16 @@ export function createMainWindow() {
     mainWindow.maximize();
   }
 
+  // restore last position if it was moved previously
+  if(config.windowState.x > 0 || config.windowState.y > 0) {
+    mainWindow.setPosition(config.windowState.x ?? 0, config.windowState.y ?? 0);
+  }
+
+  // restore last size if it was resized previously
+  if(config.windowState.width > 0 && config.windowState.height > 0) {
+    mainWindow.setSize(config.windowState.width ?? 1280, config.windowState.height ?? 720);
+  }
+
   // load the entrypoint
   mainWindow.loadURL(BUILD_URL.toString());
 
@@ -80,12 +90,18 @@ export function createMainWindow() {
   // keep track of window state
   function generateState() {
     config.windowState = {
+      x: mainWindow.getPosition()[0],
+      y: mainWindow.getPosition()[1],
+      width: mainWindow.getSize()[0],
+      height: mainWindow.getSize()[1],
       isMaximised: mainWindow.isMaximized(),
     };
   }
 
   mainWindow.on("maximize", generateState);
   mainWindow.on("unmaximize", generateState);
+  mainWindow.on("moved", generateState);
+  mainWindow.on("resized", generateState);
 
   // rebind zoom controls to be more sensible
   mainWindow.webContents.on("before-input-event", (event, input) => {

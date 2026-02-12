@@ -28,18 +28,18 @@ const schema = {
   windowState: {
     type: "object",
     properties: {
-      // x: {
-      //   type: 'number'
-      // } as JSONSchema.Number,
-      // y: {
-      //   type: 'number'
-      // } as JSONSchema.Number,
-      // width: {
-      //   type: 'number'
-      // } as JSONSchema.Number,
-      // height: {
-      //   type: 'number'
-      // } as JSONSchema.Number,
+      x: {
+        type: 'number'
+      } as JSONSchema.Number,
+      y: {
+        type: 'number'
+      } as JSONSchema.Number,
+      width: {
+        type: 'number'
+      } as JSONSchema.Number,
+      height: {
+        type: 'number'
+      } as JSONSchema.Number,
       isMaximised: {
         type: "boolean",
       } as JSONSchema.Boolean,
@@ -57,6 +57,10 @@ const store = new Store({
     hardwareAcceleration: true,
     discordRpc: true,
     windowState: {
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
       isMaximised: false,
     },
   } as DesktopConfig,

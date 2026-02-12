@@ -8,10 +8,9 @@ contextBridge.exposeInMainWorld("desktopConfig", {
   get: () => config,
   set: (config: DesktopConfig) => ipcRenderer.send("config", config),
   getAutostart() {
-    ipcRenderer.send("isAutostart?");
-    return new Promise((resolve) => ipcRenderer.once("isAutostart", resolve));
+    return ipcRenderer.invoke("getAutostart") as Promise<boolean>;
   },
   setAutostart(value: boolean) {
-    ipcRenderer.send("setAutostart", value);
+    return ipcRenderer.invoke("setAutostart", value) as Promise<boolean>;
   },
 });

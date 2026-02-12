@@ -8,16 +8,20 @@ export const autoLaunch = new AutoLaunch({
   name: "Stoat",
 });
 
-ipcMain.on("isAutostart?", () =>
-  autoLaunch
-    .isEnabled()
-    .then((enabled) => mainWindow.webContents.send("isAutostart", enabled)),
-);
+ipcMain.handle("getAutostart", async () => {
+  const enabled = await autoLaunch.isEnabled();
+  return enabled;
+});
 
-ipcMain.on("setAutostart", (_event, state: boolean) => {
+ipcMain.handle("setAutostart", async (_event, state: boolean) => {
   if (state) {
-    autoLaunch.enable();
+    await autoLaunch.enable();
+    console.log("Received new configuration autoStart: true");
   } else {
-    autoLaunch.disable();
+    await autoLaunch.disable();
+    console.log("Received new configuration autoStart: false");
   }
+
+  const enabled = await autoLaunch.isEnabled();
+  return enabled;
 });

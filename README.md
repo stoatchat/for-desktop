@@ -74,3 +74,11 @@ git -c submodule."assets".update=checkout submodule update --init assets
 ```
 
 Currently, this is required to build, any forks are expected to provide their own assets.
+
+### Installation on MacOS
+
+It is required to remove the application from quarantine on MacOS to be able to use it. Move the application to /Applications and use this command.
+
+```bash
+xattr -d com.apple.quarantine /Applications/Stoat.app
+```

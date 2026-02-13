@@ -1,6 +1,6 @@
 import { Menu, Tray, nativeImage } from "electron";
 
-import trayIconAsset from "../../assets/desktop/icon.png?asset";
+import trayIconAsset from "../../assets/desktop/iconTemplate.png?asset";
 import { version } from "../../package.json";
 
 import { mainWindow, quitApp } from "./window";
@@ -11,6 +11,8 @@ let tray: Tray = null;
 // Create and resize tray icon for macOS
 function createTrayIcon() {
   const image = nativeImage.createFromDataURL(trayIconAsset);
+  console.log("Tray icon asset type:", typeof trayIconAsset);
+  console.log("Tray icon asset preview:", String(trayIconAsset).slice(0, 50));
   const resized = image.resize({ width: 20, height: 20 });
 
   // Mark as template image so it adapts to dark/light mode

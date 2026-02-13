@@ -90,3 +90,6 @@ typings/
 
 # Electron-Forge
 out/
+
+# Intellij-IDEA
+.idea

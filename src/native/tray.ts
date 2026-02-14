@@ -28,8 +28,12 @@ export function initTray() {
   tray.setToolTip("Stoat for Desktop");
   tray.setImage(trayIcon);
   tray.on("click", () => {
-    mainWindow.show();
-    mainWindow.focus();
+    if (mainWindow.isVisible()) {
+     mainWindow.hide();
+    } else {
+     mainWindow.show();
+     mainWindow.focus();
+    }
   });
 }
 

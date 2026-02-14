@@ -13,4 +13,7 @@ contextBridge.exposeInMainWorld("desktopConfig", {
   setAutostart(value: boolean) {
     return ipcRenderer.invoke("setAutostart", value) as Promise<boolean>;
   },
+  setHomeserver(value: string) {
+    ipcRenderer.send("updateHomeserver", value);
+  }
 });

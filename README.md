@@ -19,11 +19,11 @@ _Contribution guidelines for Desktop app TBA!_
 
 <!-- Before contributing, make yourself familiar with [our contribution guidelines](https://developers.revolt.chat/contrib.html), the [code style guidelines](./GUIDELINES.md), and the [technical documentation for this project](https://revoltchat.github.io/frontend/). -->
 
-Before getting started, you'll want to install:
+Before getting started, make sure you have installed:
 
-- Git
 - Node.js
-- pnpm (run `corepack enable`)
+- pnpm (enable after installing Node.js with `corepack enable pnpm`)
+- Python 3
 
 Then proceed to setup:
 

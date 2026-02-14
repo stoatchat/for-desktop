@@ -57,19 +57,25 @@ export function createMainWindow() {
   // hide the options
   mainWindow.setMenu(null);
 
-  // maximise the window if it was maximised before
-  if (config.windowState.isMaximised) {
-    mainWindow.maximize();
-  }
-
   // restore last position if it was moved previously
-  if(config.windowState.x > 0 || config.windowState.y > 0) {
-    mainWindow.setPosition(config.windowState.x ?? 0, config.windowState.y ?? 0);
+  if (config.windowState.x > 0 || config.windowState.y > 0) {
+    mainWindow.setPosition(
+      config.windowState.x ?? 0,
+      config.windowState.y ?? 0,
+    );
   }
 
   // restore last size if it was resized previously
-  if(config.windowState.width > 0 && config.windowState.height > 0) {
-    mainWindow.setSize(config.windowState.width ?? 1280, config.windowState.height ?? 720);
+  if (config.windowState.width > 0 && config.windowState.height > 0) {
+    mainWindow.setSize(
+      config.windowState.width ?? 1280,
+      config.windowState.height ?? 720,
+    );
+  }
+
+  // maximise the window if it was maximised before
+  if (config.windowState.isMaximised) {
+    mainWindow.maximize();
   }
 
   // load the entrypoint

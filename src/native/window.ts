@@ -105,7 +105,7 @@ export function createMainWindow() {
 
   // rebind zoom controls to be more sensible
   mainWindow.webContents.on("before-input-event", (event, input) => {
-    if (input.control && input.key === "=") {
+    if (input.control && (input.key === "=" || input.key === "+")) {
       // zoom in (+)
       event.preventDefault();
       mainWindow.webContents.setZoomLevel(

@@ -1,7 +1,8 @@
 on:
   push:
     branches:
-      - "**"
+      - main
+  pull_request:
 
 jobs:
   build:
@@ -15,16 +16,10 @@ jobs:
       - name: Checkout assets
         run: git -c submodule."assets".update=checkout submodule update --init assets
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
+      - name: Setup Mise
+        uses: immich-app/devtools/actions/use-mise@cd24790a7f5f6439ac32cc94f5523cb2de8bfa8c # use-mise-action-v1.1.0
         with:
-          run_install: false
-
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: "pnpm"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install dependencies
         run: pnpm install

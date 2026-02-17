@@ -132,6 +132,10 @@ export function createMainWindow() {
       mainWindow.webContents.setZoomLevel(
         mainWindow.webContents.getZoomLevel() - 1,
       );
+    } else if (input.control && input.key === "0") {
+      // reset zoom to default.
+      event.preventDefault();
+      mainWindow.webContents.setZoomLevel(0);
     } else if (
       input.key === "F5" ||
       ((input.control || input.meta) && input.key.toLowerCase() === "r")

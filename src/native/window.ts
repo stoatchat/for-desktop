@@ -63,13 +63,19 @@ export function createMainWindow() {
   }
 
   // restore last position if it was moved previously
-  if(config.windowState.x > 0 || config.windowState.y > 0) {
-    mainWindow.setPosition(config.windowState.x ?? 0, config.windowState.y ?? 0);
+  if (config.windowState.x > 0 || config.windowState.y > 0) {
+    mainWindow.setPosition(
+      config.windowState.x ?? 0,
+      config.windowState.y ?? 0,
+    );
   }
 
   // restore last size if it was resized previously
-  if(config.windowState.width > 0 && config.windowState.height > 0) {
-    mainWindow.setSize(config.windowState.width ?? 1280, config.windowState.height ?? 720);
+  if (config.windowState.width > 0 && config.windowState.height > 0) {
+    mainWindow.setSize(
+      config.windowState.width ?? 1280,
+      config.windowState.height ?? 720,
+    );
   }
 
   // load the entrypoint
@@ -117,6 +123,12 @@ export function createMainWindow() {
       mainWindow.webContents.setZoomLevel(
         mainWindow.webContents.getZoomLevel() - 1,
       );
+    } else if (
+      input.key === "F5" ||
+      ((input.control || input.meta) && input.key.toLowerCase() === "r")
+    ) {
+      event.preventDefault();
+      mainWindow.webContents.reload();
     }
   });
 

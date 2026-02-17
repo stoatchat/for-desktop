@@ -1,6 +1,7 @@
 import { Menu, Tray, nativeImage } from "electron";
 
 import trayIconAsset from "../../assets/desktop/icon.png?asset";
+import macOsTrayIconAsset from "../../assets/desktop/iconTemplate.png?asset";
 import { version } from "../../package.json";
 
 import { mainWindow, quitApp } from "./window";
@@ -10,16 +11,15 @@ let tray: Tray = null;
 
 // Create and resize tray icon for macOS
 function createTrayIcon() {
-  const image = nativeImage.createFromDataURL(trayIconAsset);
-  const resized = image.resize({ width: 20, height: 20 });
-
-  // Mark as template image so it adapts to dark/light mode
-  resized.setTemplateImage(true);
-
-  return resized;
+  if (process.platform === "darwin") {
+    const image = nativeImage.createFromDataURL(macOsTrayIconAsset);
+    const resized = image.resize({ width: 20, height: 20 });
+    resized.setTemplateImage(true);
+    return resized;
+  } else {
+    return nativeImage.createFromDataURL(trayIconAsset);
+  }
 }
-
-// trayIcon.setTemplateImage(true);
 
 export function initTray() {
   const trayIcon = createTrayIcon();

@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Stoat
-Comment=The chat app where you are the main character.
+Comment=Open source, user-first chat platform
 Exec=stoat-desktop
 Terminal=false
 Type=Application

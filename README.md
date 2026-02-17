@@ -13,6 +13,14 @@ Application for Windows, macOS, and Linux.
 </div>
 <br/>
 
+## Installation
+
+<a href="https://repology.org/project/stoat-desktop/versions">
+    <img src="https://repology.org/badge/vertical-allrepos/stoat-desktop.svg" alt="Packaging status" align="right">
+</a>
+
+- All downloads and instructions for Stoat can be found on our [Website](https://stoat.chat/download).
+
 ## Development Guide
 
 _Contribution guidelines for Desktop app TBA!_

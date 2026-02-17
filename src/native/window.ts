@@ -86,10 +86,6 @@ export function createMainWindow() {
   // load the entrypoint
   mainWindow.loadURL(BUILD_URL.toString());
 
-  if (startHidden) {
-    mainWindow.hide();
-  }
-
   // minimise window to tray
   mainWindow.on("close", (event) => {
     if (!shouldQuit && config.minimiseToTray) {

@@ -1,7 +1,9 @@
 nodeLinker: hoisted
 
 onlyBuiltDependencies:
+  - bufferutil
   - electron
   - electron-winstaller
   - esbuild
   - register-scheme
+  - utf-8-validate

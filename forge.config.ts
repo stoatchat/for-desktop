@@ -58,7 +58,7 @@ if (!process.env.PLATFORM) {
         description: STRINGS.description,
         productName: STRINGS.name,
         productDescription: STRINGS.description,
-        runtimeVersion: "21.08",
+        runtimeVersion: "25.08",
         icon: `${ASSET_DIR}/icon.png`,
         categories: ["Network"],
         modules: [

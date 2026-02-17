@@ -16,6 +16,9 @@ const schema = {
   minimiseToTray: {
     type: "boolean",
   } as JSONSchema.Boolean,
+  startMinimisedToTray: {
+    type: "boolean",
+  } as JSONSchema.Boolean,
   spellchecker: {
     type: "boolean",
   } as JSONSchema.Boolean,
@@ -29,16 +32,16 @@ const schema = {
     type: "object",
     properties: {
       x: {
-        type: 'number'
+        type: "number",
       } as JSONSchema.Number,
       y: {
-        type: 'number'
+        type: "number",
       } as JSONSchema.Number,
       width: {
-        type: 'number'
+        type: "number",
       } as JSONSchema.Number,
       height: {
-        type: 'number'
+        type: "number",
       } as JSONSchema.Number,
       isMaximised: {
         type: "boolean",
@@ -53,6 +56,7 @@ const store = new Store({
     firstLaunch: true,
     customFrame: true,
     minimiseToTray: true,
+    startMinimisedToTray: false,
     spellchecker: true,
     hardwareAcceleration: true,
     discordRpc: true,
@@ -75,6 +79,7 @@ class Config {
       firstLaunch: this.firstLaunch,
       customFrame: this.customFrame,
       minimiseToTray: this.minimiseToTray,
+      startMinimisedToTray: this.startMinimisedToTray,
       spellchecker: this.spellchecker,
       hardwareAcceleration: this.hardwareAcceleration,
       discordRpc: this.discordRpc,
@@ -117,6 +122,21 @@ class Config {
   set minimiseToTray(value: boolean) {
     (store as never as { set(k: string, value: boolean): void }).set(
       "minimiseToTray",
+      value,
+    );
+
+    this.sync();
+  }
+
+  get startMinimisedToTray() {
+    return (store as never as { get(k: string): boolean }).get(
+      "startMinimisedToTray",
+    );
+  }
+
+  set startMinimisedToTray(value: boolean) {
+    (store as never as { set(k: string, value: boolean): void }).set(
+      "startMinimisedToTray",
       value,
     );
 

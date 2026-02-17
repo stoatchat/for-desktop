@@ -36,6 +36,10 @@ const windowIcon = nativeImage.createFromDataURL(windowIconAsset);
  * Create the main application window
  */
 export function createMainWindow() {
+  // (CLI arg --hidden or config)
+  const startHidden =
+    app.commandLine.hasSwitch("hidden") || config.startMinimisedToTray;
+
   // create the window
   mainWindow = new BrowserWindow({
     minWidth: 300,
@@ -45,6 +49,7 @@ export function createMainWindow() {
     backgroundColor: "#191919",
     frame: !config.customFrame,
     icon: windowIcon,
+    show: !startHidden,
     webPreferences: {
       // relative to `.vite/build`
       preload: join(__dirname, "preload.js"),
@@ -63,17 +68,27 @@ export function createMainWindow() {
   }
 
   // restore last position if it was moved previously
-  if(config.windowState.x > 0 || config.windowState.y > 0) {
-    mainWindow.setPosition(config.windowState.x ?? 0, config.windowState.y ?? 0);
+  if (config.windowState.x > 0 || config.windowState.y > 0) {
+    mainWindow.setPosition(
+      config.windowState.x ?? 0,
+      config.windowState.y ?? 0,
+    );
   }
 
   // restore last size if it was resized previously
-  if(config.windowState.width > 0 && config.windowState.height > 0) {
-    mainWindow.setSize(config.windowState.width ?? 1280, config.windowState.height ?? 720);
+  if (config.windowState.width > 0 && config.windowState.height > 0) {
+    mainWindow.setSize(
+      config.windowState.width ?? 1280,
+      config.windowState.height ?? 720,
+    );
   }
 
   // load the entrypoint
   mainWindow.loadURL(BUILD_URL.toString());
+
+  if (startHidden) {
+    mainWindow.hide();
+  }
 
   // minimise window to tray
   mainWindow.on("close", (event) => {

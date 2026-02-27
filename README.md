@@ -33,6 +33,16 @@ Before getting started, you'll want to install:
 - Node.js
 - pnpm (run `corepack enable`)
 
+### Windows notes
+
+If `pnpm` fails in PowerShell with `running scripts is disabled` (pnpm.ps1):
+- Run: `Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned`
+- Close and reopen Powershell, then try `pnpm` again.
+
+If native modules fail to build (node-gyp errors, missing `cl` or `msbuild`):
+- Install "Build Tools for Visual Studio 2022" with "Desktop development with C++" (MSVC v143 and Windows SDK).
+- Run commands from "x64 Native Tools Command Prompt for VS 2022" (or "Developer Powershell for VS 2022") so `cl.exe` and `msbuild.exe` are on PATH.
+
 Then proceed to setup:
 
 ```bash

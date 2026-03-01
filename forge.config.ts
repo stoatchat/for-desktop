@@ -13,10 +13,10 @@ import { FuseV1Options, FuseVersion } from "@electron/fuses";
 // import { globSync } from "node:fs";
 
 const STRINGS = {
-  author: "Revolt Platforms LTD",
-  name: "Stoat",
-  execName: "stoat-desktop",
-  description: "Open source user-first chat platform.",
+  author: "Baboon Dev Team",
+  name: "Baboon",
+  execName: "baboon-desktop",
+  description: "Open source user-first chat platform with enhanced notifications and sounds.",
 };
 
 const ASSET_DIR = "assets/desktop";
@@ -176,7 +176,7 @@ const config: ForgeConfig = {
   publishers: [
     new PublisherGithub({
       repository: {
-        owner: "stoatchat",
+        owner: "SKATTKOOKIE",
         name: "for-desktop",
       },
     }),

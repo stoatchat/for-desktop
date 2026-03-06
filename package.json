@@ -1,7 +1,7 @@
 {
   "name": "baboon-desktop",
   "productName": "baboon-desktop",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "main": ".vite/build/main.js",
   "repository": "SKATTKOOKIE/desktop",
   "scripts": {

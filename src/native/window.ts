@@ -11,6 +11,7 @@ import {
 } from "electron";
 
 import windowIconAsset from "../../assets/desktop/icon.png?asset";
+import iconSvgRaw from "../../assets/desktop/icon.svg?raw";
 
 import { config } from "./config";
 import { updateTrayMenu } from "./tray";
@@ -89,6 +90,39 @@ export function createMainWindow() {
 
   // Load connect and disconnect sounds
   injectSounds(mainWindow.webContents);
+
+  // Force hide of Stoat logo and replace with Baboon
+  mainWindow.webContents.on("did-finish-load", () => {
+    mainWindow.webContents.insertCSS(`
+      svg.h_18px { display: none !important; }
+      svg.w_160px { display: none !important; }
+    `);
+
+    const iconUrl = `data:image/svg+xml;base64,${Buffer.from(iconSvgRaw).toString("base64")}`;
+
+    mainWindow.webContents.executeJavaScript(`
+      window.__iconUrl = ${JSON.stringify(iconUrl)};
+      setTimeout(function() {
+        const topLogo = document.querySelector('svg.h_18px');
+        if (topLogo) {
+          const img = document.createElement('img');
+          img.src = window.__iconUrl;
+          img.style.height = '35px';
+          img.style.marginBottom = '1px';
+          topLogo.parentNode.insertBefore(img, topLogo);
+        }
+
+        const centreLogo = document.querySelector('svg.w_160px');
+        if (centreLogo) {
+          const img = document.createElement('img');
+          img.src = window.__iconUrl;
+          img.style.width = '160px';
+          centreLogo.parentNode.insertBefore(img, centreLogo);
+        }
+      }, 500);
+    `).catch(() => {});
+  });
+
 
   // minimise window to tray
   mainWindow.on("close", (event) => {

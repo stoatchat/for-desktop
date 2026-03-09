@@ -135,7 +135,10 @@ const config: ForgeConfig = {
     name: STRINGS.name,
     executableName: STRINGS.execName,
     icon: `${ASSET_DIR}/icon`,
-    // extraResource: [
+    extendInfo: {
+      NSMicrophoneUsageDescription:
+        "Stoat needs access to the microphone to enable voice chat features.",
+    },    // extraResource: [
     //   // include all the asset files
     //   ...globSync(ASSET_DIR + "/**/*"),
     // ],

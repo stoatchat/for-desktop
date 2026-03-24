@@ -159,7 +159,12 @@ const config: ForgeConfig = {
           target: "preload",
         },
       ],
-      renderer: [],
+      renderer: [
+        {
+          name: "main_window",
+          config: "vite.renderer.config.ts",
+        },
+      ],
     }),
     // Fuses are used to enable/disable various Electron functionality
     // at package time, before code signing the application

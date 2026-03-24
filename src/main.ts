@@ -1,13 +1,13 @@
 import { IUpdateInfo, updateElectronApp } from "update-electron-app";
 
-import { BrowserWindow, Notification, app, shell } from "electron";
+import { BrowserWindow, Notification, app, globalShortcut, shell } from "electron";
 import started from "electron-squirrel-startup";
 
 import { autoLaunch } from "./native/autoLaunch";
 import { config } from "./native/config";
 import { initDiscordRpc } from "./native/discordRpc";
 import { initTray } from "./native/tray";
-import { BUILD_URL, createMainWindow, mainWindow } from "./native/window";
+import { getBuildURL, createMainWindow, loadServerPicker, mainWindow } from "./native/window";
 
 // Squirrel-specific logic
 // create/remove shortcuts on Windows when installing / uninstalling
@@ -54,6 +54,10 @@ if (acquiredLock) {
     initTray();
     initDiscordRpc();
 
+    globalShortcut.register("CmdOrCtrl+Shift+S", () => {
+      loadServerPicker(mainWindow);
+    });
+
     // Windows specific fix for notifications
     if (process.platform === "win32") {
       app.setAppUserModelId("chat.stoat.notifications");
@@ -87,9 +91,12 @@ if (acquiredLock) {
 
   // ensure URLs launch in external context
   app.on("web-contents-created", (_, contents) => {
-    // prevent navigation out of build URL origin
+    // prevent navigation out of current server origin
     contents.on("will-navigate", (event, navigationUrl) => {
-      if (new URL(navigationUrl).origin !== BUILD_URL.origin) {
+      const currentOrigin = getBuildURL().origin;
+      const navOrigin = new URL(navigationUrl).origin;
+      // allow same-origin navigation and local file/dev-server navigation
+      if (navOrigin !== currentOrigin && navOrigin !== "null") {
         event.preventDefault();
       }
     });

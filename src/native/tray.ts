@@ -4,7 +4,7 @@ import trayIconAsset from "../../assets/desktop/icon.png?asset";
 import macOsTrayIconAsset from "../../assets/desktop/iconTemplate.png?asset";
 import { version } from "../../package.json";
 
-import { mainWindow, quitApp } from "./window";
+import { mainWindow, quitApp, getBuildURL, loadServerPicker } from "./window";
 
 // internal tray state
 let tray: Tray = null;
@@ -64,6 +64,20 @@ export function updateTrayMenu() {
           }
         },
       },
+      { type: "separator" },
+      {
+        label: `Connected to: ${getBuildURL().hostname}`,
+        type: "normal",
+        enabled: false,
+      },
+      {
+        label: "Change Server…",
+        type: "normal",
+        click() {
+          loadServerPicker(mainWindow);
+        },
+      },
+      { type: "separator" },
       {
         label: "Quit App",
         type: "normal",

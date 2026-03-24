@@ -1,12 +1,62 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Hello World!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stoat — Select Server</title>
   </head>
   <body>
-    <h1>💖 Hello World!</h1>
-    <p>Welcome to your Electron application.</p>
+    <div class="titlebar" id="titlebar">
+      <span class="titlebar-title">Stoat Desktop</span>
+      <div class="window-controls">
+        <button class="wc-btn" id="btn-minimise" title="Minimise">&#8211;</button>
+        <button class="wc-btn" id="btn-maximise" title="Maximise">&#9633;</button>
+        <button class="wc-btn wc-close" id="btn-close" title="Close">&#10005;</button>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="card">
+        <div class="header">
+          <div class="logo">🦔</div>
+          <h1>Stoat Desktop</h1>
+          <p class="subtitle">Connect to a Revolt-compatible server</p>
+        </div>
+
+        <div class="server-options">
+          <button class="server-option" id="opt-official" data-url="https://beta.revolt.chat">
+            <div class="server-info">
+              <span class="server-name">Official Server</span>
+              <span class="server-url">beta.revolt.chat</span>
+            </div>
+            <span class="check-icon">&#10003;</span>
+          </button>
+
+          <button class="server-option" id="opt-custom">
+            <div class="server-info">
+              <span class="server-name">Custom Server</span>
+              <span class="server-url" id="custom-url-preview">Enter URL below</span>
+            </div>
+            <span class="check-icon">&#10003;</span>
+          </button>
+        </div>
+
+        <div class="input-group" id="custom-input-group">
+          <label for="server-url-input">Server URL</label>
+          <input
+            type="url"
+            id="server-url-input"
+            placeholder="https://your.server.tld"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <span class="input-error" id="url-error"></span>
+        </div>
+
+        <button class="connect-btn" id="connect-btn">Connect</button>
+      </div>
+    </div>
+
     <script type="module" src="/src/renderer.ts"></script>
   </body>
 </html>

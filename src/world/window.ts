@@ -15,4 +15,12 @@ contextBridge.exposeInMainWorld("native", {
   close: () => ipcRenderer.send("close"),
 
   setBadgeCount: (count: number) => ipcRenderer.send("setBadgeCount", count),
+
+  navigate: (url: string) =>
+    ipcRenderer.invoke("navigate", url) as Promise<boolean>,
+
+  getServerUrl: () =>
+    ipcRenderer.invoke("getServerUrl") as Promise<string>,
+
+  showServerPicker: () => ipcRenderer.invoke("showServerPicker") as Promise<void>,
 });

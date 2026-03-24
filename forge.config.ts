@@ -85,37 +85,29 @@ if (!process.env.PLATFORM) {
           // default arguments found by running
           // DEBUG=electron-installer-flatpak* pnpm make
           "--socket=fallback-x11",
+          "--socket=wayland",
           "--share=ipc",
+          "--share=network",
           "--device=dri",
+          "--device=all",
           "--socket=pulseaudio",
           "--filesystem=home",
-          "--env=TMPDIR=/var/tmp",
-          "--share=network",
+          "--filesystem=xdg-run/pipewire-0",
+          "--filesystem=xdg-videos:ro",
+          "--filesystem=xdg-pictures:ro",
+          "--filesystem=xdg-run/speech-dispatcher",
+          "--talk-name=org.freedesktop.ScreenSaver",
           "--talk-name=org.freedesktop.Notifications",
-          // add Unity talk name for badges
+          "--talk-name=org.kde.StatusNotifierWatcher",
+          "--talk-name=com.canonical.AppMenu.Registrar",
+          "--talk-name=com.canonical.indicator.application",
           "--talk-name=com.canonical.Unity",
+          "--env=XCURSOR_PATH=/run/host/user-share/icons:/run/host/share/icons",
+          "--env=ELECTRON_TRASH=gio",
+          "--env=TMPDIR=xdg-run/app/chat.stoat.stoat-desktop",
         ],
-        // files: [
-        //   // is this necessary?
-        //   // https://stackoverflow.com/q/79745700
-        //   ...[16, 32, 64, 128, 256, 512].map(
-        //     (size) =>
-        //       [
-        //         `assets/desktop/hicolor/${size}x${size}.png`,
-        //         `/app/share/icons/hicolor/${size}x${size}/apps/chat.stoat.stoat-desktop.png`,
-        //       ] as [string, string],
-        //   ),
-        //   [
-        //     `assets/desktop/icon.svg`,
-        //     `/app/share/icons/hicolor/scalable/apps/chat.stoat.stoat-desktop.svg`,
-        //   ] as [string, string],
-        // ],
         files: [],
       } as MakerFlatpakOptionsConfig,
-      /* as Omit<
-        MakerFlatpakOptionsConfig,
-        "files"
-      > */
     }),
     // testing purposes
     new MakerDeb({

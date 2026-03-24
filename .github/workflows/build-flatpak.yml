@@ -1,0 +1,54 @@
+name: Build Flatpak
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+
+jobs:
+  flatpak:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout (with submodules)
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Ensure assets submodule is checked out
+        run: |
+          git submodule sync --recursive
+          git -c submodule."assets".update=checkout submodule update --init --recursive assets
+          test -f assets/desktop/icon.png
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Enable Corepack (pnpm)
+        run: corepack enable
+
+      - name: Install dependencies
+        run: pnpm i --frozen-lockfile
+
+      - name: Install Flatpak tooling
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y flatpak flatpak-builder
+          flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
+      - name: Install Flatpak runtimes
+        run: |
+          flatpak install -y --user flathub org.freedesktop.Platform//25.08 org.freedesktop.Sdk//25.08
+          flatpak install -y --user flathub org.electronjs.Electron2.BaseApp//stable
+
+      - name: Build Flatpak
+        run: pnpm make
+
+      - name: Upload Flatpak artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: stoat-flatpak
+          path: out/make/flatpak/**/*.flatpak
+          if-no-files-found: error

@@ -15,8 +15,10 @@ import { FuseV1Options, FuseVersion } from "@electron/fuses";
 const STRINGS = {
   author: "Revolt Platforms LTD",
   name: "Stoat",
+  packageName: "stoat-for-desktop",
   execName: "stoat-desktop",
   description: "Open source user-first chat platform.",
+  homepage: "https://stoat.chat/"
 };
 
 const ASSET_DIR = "assets/desktop";
@@ -26,6 +28,7 @@ const ASSET_DIR = "assets/desktop";
  */
 const makers: ForgeConfig["makers"] = [
   new MakerSquirrel({
+    platforms: ["win32"],
     name: STRINGS.name,
     authors: STRINGS.author,
     // todo: hoist this
@@ -38,6 +41,21 @@ const makers: ForgeConfig["makers"] = [
     copyright: "Copyright (C) 2025 Revolt Platforms LTD",
   }),
   new MakerZIP({}),
+  new MakerDeb({
+    platforms: ["linux"],
+    name: STRINGS.packageName,
+    productName: STRINGS.name,
+    genericName: "Chat platform",
+    description: STRINGS.description,
+    // todo: productDescription (long description)
+    section: "net",
+    priority: "optional",
+    maintainer: STRINGS.author,
+    homepage: STRINGS.homepage,
+    bin: `${STRINGS.execName}`,
+    icon: `${ASSET_DIR}/icon.ico`,
+    categories: ["Network"],
+  })
 ];
 
 // skip these makers in CI/CD
@@ -116,15 +134,6 @@ if (!process.env.PLATFORM) {
         MakerFlatpakOptionsConfig,
         "files"
       > */
-    }),
-    // testing purposes
-    new MakerDeb({
-      options: {
-        productName: STRINGS.name,
-        productDescription: STRINGS.description,
-        categories: ["Network"],
-        icon: `${ASSET_DIR}/icon.png`,
-      },
     }),
   );
 }

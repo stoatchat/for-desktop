@@ -5,6 +5,7 @@ import {
   Menu,
   MenuItem,
   app,
+  desktopCapturer,
   ipcMain,
   nativeImage,
 } from "electron";
@@ -85,6 +86,25 @@ export function createMainWindow() {
 
   // load the entrypoint
   mainWindow.loadURL(BUILD_URL.toString());
+
+  // enable screen capture; on Linux desktopCapturer is used as useSystemPicker is unreliable
+  if (process.platform === "linux") {
+    mainWindow.webContents.session.setDisplayMediaRequestHandler(
+      async (_request, callback) => {
+        const sources = await desktopCapturer.getSources({
+          types: ["screen", "window"],
+        });
+        callback({ video: sources[0] });
+      },
+    );
+  } else {
+    mainWindow.webContents.session.setDisplayMediaRequestHandler(
+      (request, callback) => {
+        callback({ video: request.video });
+      },
+      { useSystemPicker: true },
+    );
+  }
 
   // minimise window to tray
   mainWindow.on("close", (event) => {

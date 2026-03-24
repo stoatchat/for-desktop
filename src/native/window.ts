@@ -79,7 +79,7 @@ export function createMainWindow() {
   }
 
   // maximise the window if it was maximised before
-  if (config.windowState.isMaximised) {
+  if (config.windowState.isMaximised && !startHidden) {
     mainWindow.maximize();
   }
 

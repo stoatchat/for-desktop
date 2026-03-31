@@ -21,7 +21,7 @@ export let mainWindow: BrowserWindow;
 export const BUILD_URL = new URL(
   app.commandLine.hasSwitch("force-server")
     ? app.commandLine.getSwitchValue("force-server")
-    : /*MAIN_WINDOW_VITE_DEV_SERVER_URL ??*/ "https://beta.revolt.chat",
+    : /*MAIN_WINDOW_VITE_DEV_SERVER_URL ??*/ "https://stoat.chat/app",
 );
 
 // internal window state

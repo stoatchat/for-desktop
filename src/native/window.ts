@@ -14,6 +14,13 @@ import windowIconAsset from "../../assets/desktop/icon.png?asset";
 import { config } from "./config";
 import { updateTrayMenu } from "./tray";
 
+// Surprisingly, I am having a lot of trouble figuring out what to name this?
+// I want the warning to actually warn the end user instead of just being a
+// very generic "I know what I am doing" dialog that is instinctively skipped.
+const bypassDevtoolsExpirationSetting = process.argv.includes(
+  "--bypass-devtools-expiration-and-i-am-not-being-told-to-paste-scripts"
+);
+
 // global reference to main window
 export let mainWindow: BrowserWindow;
 
@@ -138,6 +145,28 @@ export function createMainWindow() {
     ) {
       event.preventDefault();
       mainWindow.webContents.reload();
+    }
+  });
+
+  // Afaik, this is the easiest way to let the app
+  // turn the keybinds for opening devtools on/off.
+  // Adapted from: https://stackoverflow.com/a/75716165
+  mainWindow.webContents.on("before-input-event", (_, input) => {
+    if (input.type !== "keyDown") {
+      return;
+    }
+
+    const devtoolsExpired = config.enableDevtoolsUntilTimestamp < Date.now();
+    if (devtoolsExpired && !bypassDevtoolsExpirationSetting) {
+      config.enableDevtoolsUntilTimestamp = 0;
+      return;
+    }
+
+    // `input.key`, for letters, is UPPERCASE if shift is pressed, lowercase otherwise.
+    // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
+    const ctrlShiftI = input.control && input.key === "I";
+    if (ctrlShiftI || input.key === "F12") {
+      mainWindow.webContents.toggleDevTools();
     }
   });
 

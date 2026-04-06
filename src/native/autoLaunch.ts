@@ -2,6 +2,7 @@ import AutoLaunch from "auto-launch";
 
 import { ipcMain } from "electron";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { mainWindow } from "./window";
 
 export const autoLaunch = new AutoLaunch({

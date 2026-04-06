@@ -1,6 +1,6 @@
 import { IUpdateInfo, updateElectronApp } from "update-electron-app";
 
-import { BrowserWindow, Notification, app, shell } from "electron";
+import { BrowserWindow, Notification, app, shell, systemPreferences } from "electron";
 import started from "electron-squirrel-startup";
 
 import { autoLaunch } from "./native/autoLaunch";
@@ -39,10 +39,18 @@ if (acquiredLock) {
   updateElectronApp({ onNotifyUser });
 
   // create and configure the app when electron is ready
-  app.on("ready", () => {
+  app.on("ready", async () => {
     // create window and application contexts
     createMainWindow();
 
+    // -- macOS Microphone Permission --
+    try {
+      const granted = await systemPreferences.askForMediaAccess("microphone");
+      console.log("Microphone access granted:", granted);
+    } catch (error) {
+      console.error("Error requesting microphone access:", error);
+    }
+    // -----------------------------------
     // enable auto start on Windows and MacOS
     if (config.firstLaunch) {
       if (process.platform === "win32" || process.platform === "darwin") {

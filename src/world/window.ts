@@ -15,4 +15,16 @@ contextBridge.exposeInMainWorld("native", {
   close: () => ipcRenderer.send("close"),
 
   setBadgeCount: (count: number) => ipcRenderer.send("setBadgeCount", count),
+
+  // Wrapped in braces to return void
+  onceScreenPicker: (
+    onScreenPick: (
+      sources: { idx: number; name: string }[],
+      callback: (idx: number, audio: boolean) => void,
+    ) => void,
+  ) => {
+    ipcRenderer.once("screenPicker", (_, sources, callback) =>
+      onScreenPick(sources, callback),
+    );
+  },
 });

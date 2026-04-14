@@ -5,8 +5,10 @@ import {
   Menu,
   MenuItem,
   app,
+  desktopCapturer,
   ipcMain,
   nativeImage,
+  session,
 } from "electron";
 
 import windowIconAsset from "../../assets/desktop/icon.png?asset";
@@ -186,6 +188,43 @@ export function createMainWindow() {
       menu.popup();
     }
   });
+
+  // Create display media request handler
+  session.defaultSession.setDisplayMediaRequestHandler(
+    (request, callback) => {
+      desktopCapturer
+        .getSources({ types: ["screen", "window"] })
+        .then((sources) => {
+          // Shortcut for linux wayland.
+          if (sources.length == 1) {
+            // TODO: Get audio to work with wayland
+            // See vencord for an implementation using a virtual microphone.
+            callback({
+              video: sources[0],
+              audio: request.audioRequested ? "loopback" : undefined,
+            });
+            return;
+          }
+          mainWindow.webContents.send(
+            "screenPicker",
+            sources.map((source, idx) => {
+              return { idx: idx, name: source.name };
+            }),
+            (idx: number, audio: boolean) => {
+              if (idx < 0 || idx > sources.length) {
+                callback({});
+              } else {
+                callback({
+                  video: sources[idx],
+                  audio: audio ? "loopback" : undefined,
+                });
+              }
+            },
+          );
+        });
+    },
+    { useSystemPicker: true },
+  );
 
   // push world events to the window
   ipcMain.on("minimise", () => mainWindow.minimize());

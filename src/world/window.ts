@@ -18,13 +18,10 @@ contextBridge.exposeInMainWorld("native", {
 
   // Wrapped in braces to return void
   onceScreenPicker: (
-    onScreenPick: (
-      sources: { idx: number; name: string }[],
-      callback: (idx: number, audio: boolean) => void,
-    ) => void,
+    onScreenPick: (sources: { idx: number; name: string }[]) => void,
   ) => {
-    ipcRenderer.once("screenPicker", (_, sources, callback) =>
-      onScreenPick(sources, callback),
-    );
+    ipcRenderer.once("screenPicker", (_, sources) => onScreenPick(sources));
   },
+  screenPickerCallback: (idx: number, audio: boolean) =>
+    ipcRenderer.send("screenPickerCallback", idx, audio),
 });

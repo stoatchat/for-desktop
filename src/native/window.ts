@@ -205,12 +205,9 @@ export function createMainWindow() {
             });
             return;
           }
-          mainWindow.webContents.send(
-            "screenPicker",
-            sources.map((source, idx) => {
-              return { idx: idx, name: source.name };
-            }),
-            (idx: number, audio: boolean) => {
+          ipcMain.once(
+            "screenPickerCallback",
+            (_, idx: number, audio: boolean) => {
               if (idx < 0 || idx > sources.length) {
                 callback({});
               } else {
@@ -220,6 +217,12 @@ export function createMainWindow() {
                 });
               }
             },
+          );
+          mainWindow.webContents.send(
+            "screenPicker",
+            sources.map((source, idx) => {
+              return { idx: idx, name: source.name };
+            }),
           );
         });
     },

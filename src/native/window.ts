@@ -193,7 +193,7 @@ export function createMainWindow() {
   session.defaultSession.setDisplayMediaRequestHandler(
     (request, callback) => {
       desktopCapturer
-        .getSources({ types: ["screen", "window"] })
+        .getSources({ types: ["screen", "window"], fetchWindowIcons: true })
         .then((sources) => {
           // Shortcut for linux wayland.
           if (sources.length == 1) {

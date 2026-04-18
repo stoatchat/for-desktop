@@ -19,7 +19,12 @@ contextBridge.exposeInMainWorld("native", {
   // Wrapped in braces to return void
   onceScreenPicker: (
     onScreenPick: (
-      sources: { idx: number; isFullScreen: boolean; name: string }[],
+      sources: {
+        idx: number;
+        name: string;
+        isFullScreen: boolean;
+        image?: string;
+      }[],
     ) => void,
   ) => {
     ipcRenderer.once("screenPicker", (_, sources) => onScreenPick(sources));

@@ -221,10 +221,19 @@ export function createMainWindow() {
           mainWindow.webContents.send(
             "screenPicker",
             sources.map((source, idx) => {
+              const image = source.appIcon;
+              if (image) {
+                if (image.getAspectRatio() > 1) {
+                  image.resize({ width: 256 });
+                } else {
+                  image.resize({ height: 256 });
+                }
+              }
               return {
                 idx: idx,
-                isFullScreen: source.id.startsWith("screen"),
                 name: source.name,
+                isFullScreen: source.id.startsWith("screen"),
+                image: image?.toDataURL(),
               };
             }),
           );

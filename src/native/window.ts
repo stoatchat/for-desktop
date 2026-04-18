@@ -221,7 +221,11 @@ export function createMainWindow() {
           mainWindow.webContents.send(
             "screenPicker",
             sources.map((source, idx) => {
-              return { idx: idx, name: source.name };
+              return {
+                idx: idx,
+                isFullScreen: source.id.startsWith("screen"),
+                name: source.name,
+              };
             }),
           );
         });

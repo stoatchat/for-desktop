@@ -197,6 +197,9 @@ export function createMainWindow() {
         .then((sources) => {
           // Shortcut for linux wayland.
           if (sources.length == 1) {
+            // Clear out the IPC listener
+            mainWindow.webContents.send("screenpicker", []);
+
             // TODO: Get audio to work with wayland
             // See vencord for an implementation using a virtual microphone.
             callback({

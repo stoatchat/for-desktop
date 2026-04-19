@@ -16,7 +16,6 @@ contextBridge.exposeInMainWorld("native", {
 
   setBadgeCount: (count: number) => ipcRenderer.send("setBadgeCount", count),
 
-  // Wrapped in braces to return void
   onceScreenPicker: (
     onScreenPick: (
       sources: {
@@ -27,7 +26,9 @@ contextBridge.exposeInMainWorld("native", {
       }[],
     ) => void,
   ) => {
-    ipcRenderer.once("screenPicker", (_, sources) => onScreenPick(sources));
+    const eventName = "screenPicker";
+    ipcRenderer.removeAllListeners(eventName);
+    ipcRenderer.once(eventName, (_, sources) => onScreenPick(sources));
   },
   screenPickerCallback: (idx: number, audio: boolean) =>
     ipcRenderer.send("screenPickerCallback", idx, audio),

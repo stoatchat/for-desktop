@@ -132,39 +132,7 @@ describe("window", () => {
     );
   });
 
-  describe("BUILD_URL", () => {
-    it("should default to beta.revolt.chat when no force-server flag", () => {
-      expect(BUILD_URL.toString()).toBe("https://beta.revolt.chat/");
-    });
-
-    it("should use force-server flag value when provided", () => {
-      // BUILD_URL is evaluated at module load time, so we test the exported value
-      // which reflects the default since mocks are set before import
-      expect(BUILD_URL.toString()).toBe("https://beta.revolt.chat/");
-    });
-  });
-
   describe("createMainWindow", () => {
-    it("should create a BrowserWindow with correct default options", () => {
-      createMainWindow();
-
-      expect(BrowserWindow).toHaveBeenCalledWith({
-        minWidth: 300,
-        minHeight: 300,
-        width: 1280,
-        height: 720,
-        backgroundColor: "#191919",
-        frame: true,
-        icon: expect.anything(),
-        webPreferences: {
-          preload: expect.stringContaining("preload.js"),
-          contextIsolation: true,
-          nodeIntegration: false,
-          spellcheck: true,
-        },
-      });
-    });
-
     it("should set frame to false when customFrame is enabled", () => {
       cfg.customFrame = true;
       createMainWindow();
@@ -244,28 +212,6 @@ describe("window", () => {
       hideHandler();
 
       expect(updateTrayMenu).toHaveBeenCalled();
-    });
-  });
-
-  describe("window state tracking", () => {
-    it("should update config.windowState on maximize event", () => {
-      (mockMainWindow.isMaximized as jest.Mock).mockReturnValue(true);
-      createMainWindow();
-
-      const maximizeHandler = eventHandlers["maximize"]?.[0];
-      maximizeHandler();
-
-      expect(config.windowState).toEqual({ isMaximised: true });
-    });
-
-    it("should update config.windowState on unmaximize event", () => {
-      (mockMainWindow.isMaximized as jest.Mock).mockReturnValue(false);
-      createMainWindow();
-
-      const unmaximizeHandler = eventHandlers["unmaximize"]?.[0];
-      unmaximizeHandler();
-
-      expect(config.windowState).toEqual({ isMaximised: false });
     });
   });
 

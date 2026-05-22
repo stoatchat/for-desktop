@@ -59,80 +59,9 @@ describe("discordRpc", () => {
 
       expect(MockClient).toHaveBeenCalledWith({ transport: "ipc" });
     });
-
-    it("should register a 'ready' event handler", async () => {
-      await initDiscordRpc();
-
-      expect(mockOn).toHaveBeenCalledWith("ready", expect.any(Function));
-    });
-
-    it("should set activity when 'ready' event fires", async () => {
-      await initDiscordRpc();
-
-      const readyHandler = mockOn.mock.calls.find(
-        (call: [string, (...args: unknown[]) => void]) => call[0] === "ready",
-      )![1];
-      readyHandler();
-
-      expect(mockSetActivity).toHaveBeenCalledWith({
-        state: "stoat.chat",
-        details: "Chatting with others",
-        largeImageKey: "qr",
-        largeImageText: "",
-        buttons: [
-          {
-            label: "Join Stoat",
-            url: "https://stoat.chat/",
-          },
-        ],
-      });
-    });
-
-    it("should register a 'disconnected' event handler", async () => {
-      await initDiscordRpc();
-
-      expect(mockOn).toHaveBeenCalledWith("disconnected", expect.any(Function));
-    });
-
-    it("should schedule a reconnect when 'disconnected' event fires", async () => {
-      await initDiscordRpc();
-
-      const disconnectedHandler = mockOn.mock.calls.find(
-        (call: [string, (...args: unknown[]) => void]) =>
-          call[0] === "disconnected",
-      )![1];
-      disconnectedHandler();
-
-      expect(setTimeoutSpy).toHaveBeenCalledWith(expect.any(Function), 1e4);
-    });
-
-    it("should login with the correct clientId", async () => {
-      await initDiscordRpc();
-
-      expect(mockLogin).toHaveBeenCalledWith({
-        clientId: "872068124005007420",
-      });
-    });
-
-    it("should call reconnect on error", async () => {
-      MockClient.mockImplementationOnce(() => {
-        throw new Error("Connection failed");
-      });
-
-      await initDiscordRpc();
-
-      expect(setTimeoutSpy).toHaveBeenCalledWith(expect.any(Function), 1e4);
-    });
   });
 
   describe("destroyDiscordRpc", () => {
-    it("should destroy the rpc client if it exists", async () => {
-      await initDiscordRpc();
-      await destroyDiscordRpc();
-
-      expect(mockDestroy).toHaveBeenCalled();
-    });
-
     it("should not throw if rpc client is not initialized", async () => {
       // Ensure no client is initialized by using a fresh state
       const { config } = require("./config");

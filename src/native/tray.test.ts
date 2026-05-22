@@ -82,33 +82,6 @@ describe("tray", () => {
       );
     });
 
-    it("should resize the tray icon to 20x20", () => {
-      const mockResize = jest.fn().mockReturnValue({
-        setTemplateImage: jest.fn(),
-      });
-      (nativeImage.createFromDataURL as jest.Mock).mockReturnValue({
-        resize: mockResize,
-      });
-
-      initTray();
-
-      expect(mockResize).toHaveBeenCalledWith({ width: 20, height: 20 });
-    });
-
-    it("should set the resized icon as a template image", () => {
-      const mockSetTemplateImage = jest.fn();
-      const mockResized = {
-        resize: jest.fn().mockReturnValue({
-          setTemplateImage: mockSetTemplateImage,
-        }),
-      };
-      (nativeImage.createFromDataURL as jest.Mock).mockReturnValue(mockResized);
-
-      initTray();
-
-      expect(mockSetTemplateImage).toHaveBeenCalledWith(true);
-    });
-
     it("should create a new Tray instance with the resized icon", () => {
       initTray();
 

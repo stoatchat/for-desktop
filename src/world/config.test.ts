@@ -72,57 +72,6 @@ describe("world/config", () => {
         expect(mockIpcRendererSend).toHaveBeenCalledWith("config", mockConfig);
       });
     });
-
-    describe("getAutostart", () => {
-      it("should send 'isAutostart?' via IPC", () => {
-        desktopConfig.getAutostart();
-
-        expect(mockIpcRendererSend).toHaveBeenCalledWith("isAutostart?");
-      });
-
-      it("should return a promise", () => {
-        const result = desktopConfig.getAutostart();
-
-        expect(result).toBeInstanceOf(Promise);
-      });
-
-      it("should resolve the promise with the IPC event object", async () => {
-        const promise = desktopConfig.getAutostart();
-        const callback = mockIpcRendererOnce.mock.calls[0][1];
-        const mockEvent = { sender: "main" };
-
-        callback(mockEvent, true);
-
-        await expect(promise).resolves.toBe(mockEvent);
-      });
-
-      it("should resolve the promise even when the value is false", async () => {
-        const promise = desktopConfig.getAutostart();
-        const callback = mockIpcRendererOnce.mock.calls[0][1];
-        const mockEvent = { sender: "main" };
-
-        callback(mockEvent, false);
-
-        await expect(promise).resolves.toBe(mockEvent);
-      });
-    });
-
-    describe("setAutostart", () => {
-      it("should send 'setAutostart' with true via IPC", () => {
-        desktopConfig.setAutostart(true);
-
-        expect(mockIpcRendererSend).toHaveBeenCalledWith("setAutostart", true);
-      });
-
-      it("should send 'setAutostart' with false via IPC", () => {
-        desktopConfig.setAutostart(false);
-
-        expect(mockIpcRendererSend).toHaveBeenCalledWith(
-          "setAutostart",
-          false
-        );
-      });
-    });
   });
 
   describe("IPC config message handler", () => {

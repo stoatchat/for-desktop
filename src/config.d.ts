@@ -5,6 +5,7 @@ declare type DesktopConfig = {
   spellchecker: boolean;
   hardwareAcceleration: boolean;
   discordRpc: boolean;
+  desktopPresence: boolean;
   windowState: {
     x: number;
     y: number;

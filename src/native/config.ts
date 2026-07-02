@@ -5,6 +5,7 @@ import Store from "electron-store";
 
 import { destroyDiscordRpc, initDiscordRpc } from "./discordRpc";
 import { mainWindow } from "./window";
+import { startActivityDetection, stopActivityDetection } from "./presenceDetector";
 
 const schema = {
   firstLaunch: {
@@ -26,6 +27,9 @@ const schema = {
     type: "boolean",
   } as JSONSchema.Boolean,
   discordRpc: {
+    type: "boolean",
+  } as JSONSchema.Boolean,
+  desktopPresence: {
     type: "boolean",
   } as JSONSchema.Boolean,
   windowState: {
@@ -60,6 +64,7 @@ const store = new Store({
     spellchecker: true,
     hardwareAcceleration: true,
     discordRpc: true,
+    desktopPresence: true,
     windowState: {
       x: 0,
       y: 0,
@@ -83,6 +88,7 @@ class Config {
       spellchecker: this.spellchecker,
       hardwareAcceleration: this.hardwareAcceleration,
       discordRpc: this.discordRpc,
+      desktopPresence: this.desktopPresence,
       windowState: this.windowState,
     });
   }
@@ -186,6 +192,27 @@ class Config {
 
     (store as never as { set(k: string, value: boolean): void }).set(
       "discordRpc",
+      value,
+    );
+
+    this.sync();
+  }
+
+  get desktopPresence() {
+    return (store as never as { get(k: string): boolean }).get(
+      "desktopPresence",
+    );
+  }
+
+  set desktopPresence(value: boolean) {
+    if (value) {
+      startActivityDetection();
+    } else {
+      stopActivityDetection();
+    }
+
+    (store as never as { set(k: string, value: boolean): void }).set(
+      "desktopPresence",
       value,
     );
 

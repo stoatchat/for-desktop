@@ -1,1 +1,72 @@
-WIP hihihi
+name: Build AppImage
+
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
+
+jobs:
+  build-appimage:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y desktop-file-utils zsync libfuse2
+
+      - name: Download appimagetool
+        run: |
+          wget -c https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
+          chmod +x appimagetool-x86_64.AppImage
+
+      - name: Setup AppDir
+        run: |
+          mkdir -p Stoat.AppDir/usr/bin
+
+          # Extract the built app (assuming 'dist' or 'build' folder has the unpacked app)
+          # NOTE: You might need to adjust this path depending on where 'pnpm make' outputs files
+          # If the repo doesn't build automatically, we download the zip as you did manually:
+          # wget -O stoat.zip <LINK_TO_LATEST_ZIP>
+          # unzip stoat.zip -d Stoat.AppDir/usr/bin/
+
+          # For this example, assuming you have a 'dist' folder with the app:
+          cp -r dist/linux-unpacked/* Stoat.AppDir/usr/bin/
+
+      - name: Create AppRun
+        run: |
+          cd Stoat.AppDir
+          ln -s usr/bin/stoat-desktop AppRun
+
+      - name: Create Desktop File
+        run: |
+          cat > Stoat.AppDir/stoat.desktop <<EOF
+          [Desktop Entry]
+          Type=Application
+          Name=Stoat
+          Exec=stoat
+          Icon=stoat
+          Categories=Utility;
+          EOF
+
+      - name: Add Icon
+        run: |
+          wget -O Stoat.AppDir/stoat.png https://raw.githubusercontent.com/stoatchat/assets/bd432f2298901a8566a092636eef0c35a3a80fbc/desktop/icon.png
+          cp Stoat.AppDir/stoat.png Stoat.AppDir/usr/share/icons/hicolor/256x256/apps/stoat.png
+
+      - name: Build AppImage
+        run: |
+          ./appimagetool-x86_64.AppImage Stoat.AppDir
+          # Rename the output to something standard
+          mv Stoat-x86_64.AppImage Stoat-linux-x86_64.AppImage
+
+      - name: Upload to Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: Stoat-linux-x86_64.AppImage
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

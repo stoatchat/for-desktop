@@ -80,6 +80,15 @@ jobs:
           PLATFORM: ${{ matrix.os }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Install Flatpak Tooling and Runtimes
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y flatpak flatpak-builder
+          flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+          flatpak install -y --user flathub org.freedesktop.Platform//25.08 org.freedesktop.Sdk//25.08
+          flatpak install -y --user flathub org.electronjs.Electron2.BaseApp//stable
+
       - name: Publish Linux arm64
         if: matrix.os == 'ubuntu-latest'
         run: pnpm run publish --arch=arm64

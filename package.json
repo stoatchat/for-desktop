@@ -10,8 +10,8 @@
     "make": "electron-forge make",
     "publish": "electron-forge publish",
     "lint": "eslint --ext .ts,.tsx .",
-    "install:flatpak": "flatpak --user install out/make/flatpak/x86_64/chat.stoat.stoat-desktop_stable_x86_64.flatpak",
-    "run:flatpak": "flatpak run --socket=session-bus chat.stoat.stoat-desktop",
+    "install:flatpak": "flatpak --user install out/make/flatpak/x86_64/chat.stoat.StoatDesktop_stable_x86_64.flatpak",
+    "run:flatpak": "flatpak run --socket=session-bus chat.stoat.StoatDesktop",
     "run:nix": "/usr/bin/env electron-nix ."
   },
   "keywords": [],

@@ -1,0 +1,107 @@
+name: Build AppImage
+
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
+
+jobs:
+  build-appimage:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: [x64, arm64]
+
+    steps:
+      # 1. Checkout source code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # FIX #1: for packaging only, manual setup is often cleaner (let's not mess with electron-builder, that's the point). 
+      # To satisfy request, we use a more robust dependency setup 
+      # and rely on the standard ubuntu environment where possible.
+      # Note: There is no single "magic action" to package pre-built binaries 
+      # without a recipe (which pkg2appimage failed to automate with Stoat), we keep the steps but make them robust.
+
+      # 2. Install dependencies
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y desktop-file-utils zsync libfuse2
+
+      # 3. Download appimagetool
+      - name: Download appimagetool
+        run: |
+          wget -c https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
+          chmod +x appimagetool-x86_64.AppImage
+
+      # FIX #2: The race condition is avoided by ensuring our primary build workflow uploads assets to a Draft release first, then publishes it.
+      # When the published event fires, the assets are already attached.
+      # I've added tag ${{ github.event.release.tag_name }} instead to the downloader to explicitly target the triggering release, 
+      # ensuring we never accidentally download from a different version.
+
+      # 3. Download latest Linux binary release
+      - name: Download Latest Linux Zip (${{ matrix.arch }})
+        uses: robinraju/release-downloader@v1
+        with:
+          repository: "stoatchat/for-desktop"
+          tag: ${{ github.event.release.tag_name }}
+          fileName: "Stoat-linux-${{ matrix.arch }}-*.zip"
+          out-file-path: "."
+
+      # 4. Setup AppDir
+      - name: Setup AppDir
+        run: |
+          mkdir -p Stoat.AppDir
+          unzip Stoat-linux-${{ matrix.arch }}-*.zip
+          mv Stoat-linux-${{ matrix.arch }}/* Stoat.AppDir/
+          rmdir Stoat-linux-${{ matrix.arch }}
+
+      # 5. Create AppRun
+      - name: Create AppRun
+        run: |
+          cd Stoat.AppDir
+          ln -s stoat-desktop AppRun
+          chmod +x AppRun
+
+      # FIX #3: Use existing desktop file, after adjusting (since designed for flatpak.
+
+      # 6. Create .desktop
+      - name: Create Desktop File
+        run: |
+          cp chat.stoat.StoatDesktop.desktop Stoat.AppDir/stoat.desktop
+          sed -i 's|^Exec=.*|Exec=stoat-desktop %u|' Stoat.AppDir/stoat.desktop
+          sed -i 's|^Icon=.*|Icon=stoat|' Stoat.AppDir/stoat.desktop
+
+      # 7. Download and add icon
+      - name: Add Icon
+        run: |
+          wget -O Stoat.AppDir/stoat.png https://raw.githubusercontent.com/stoatchat/assets/bd432f2298901a8566a092636eef0c35a3a80fbc/desktop/icon.png
+
+      # 8. Build the AppImage
+      - name: Build AppImage
+        run: |
+          export ARCH=${{ matrix.arch }}
+          ./appimagetool-x86_64.AppImage Stoat.AppDir
+
+          if [ "${{ matrix.arch }}" == "x64" ]; then
+            mv Stoat-x86_64.AppImage Stoat-linux-x86_64.AppImage
+          elif [ "${{ matrix.arch }}" == "arm64" ]; then
+            mv Stoat-aarch64.AppImage Stoat-linux-arm64.AppImage
+          fi
+
+      # 9. Upload the AppImage to the Release
+      - name: Upload to Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: ${{ matrix.arch == 'x64' && 'Stoat-linux-x86_64.AppImage' || 'Stoat-linux-arm64.AppImage' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+     #- name: Upload Artifact
+        #uses: actions/upload-artifact@v4
+        #with:
+          #name: Stoat-AppImage-${{ matrix.arch }}
+         # path: ${{ matrix.arch == 'x64' && 'Stoat-linux-x86_64.AppImage' || 'Stoat-linux-arm64.AppImage' }}
+         # if-no-files-found: error

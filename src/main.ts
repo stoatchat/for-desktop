@@ -7,6 +7,7 @@ import { autoLaunch } from "./native/autoLaunch";
 import { config } from "./native/config";
 import { initDiscordRpc } from "./native/discordRpc";
 import { initTray } from "./native/tray";
+import { startActivityDetection } from "./native/presenceDetector";
 import { BUILD_URL, createMainWindow, mainWindow } from "./native/window";
 
 // Squirrel-specific logic
@@ -52,6 +53,7 @@ if (acquiredLock) {
 
     initTray();
     initDiscordRpc();
+    startActivityDetection();
 
     // Windows specific fix for notifications
     if (process.platform === "win32") {

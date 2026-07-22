@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/stoatchat/for-desktop/compare/v1.4.2...v1.5.0) (2026-07-22)
+
+
+### Features
+
+* Add flatpak build to release-please and update flatpak ([#228](https://github.com/stoatchat/for-desktop/issues/228)) ([c557333](https://github.com/stoatchat/for-desktop/commit/c5573330a93927b60aa404561069c20d06dd48b4))
+
 ## [1.4.2](https://github.com/stoatchat/for-desktop/compare/v1.4.1...v1.4.2) (2026-07-17)
 
 

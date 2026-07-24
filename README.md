@@ -43,6 +43,9 @@ cd stoat-for-desktop
 # install all packages
 pnpm i --frozen-lockfile
 
+# update the assets
+git -c submodule."assets".update=checkout submodule update --init assets
+
 # start the application
 pnpm start
 # ... or build the bundle

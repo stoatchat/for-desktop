@@ -3,7 +3,6 @@ import { IUpdateInfo, updateElectronApp } from "update-electron-app";
 import { BrowserWindow, Notification, app, shell } from "electron";
 import started from "electron-squirrel-startup";
 
-import { autoLaunch } from "./native/autoLaunch";
 import { config } from "./native/config";
 import { initDiscordRpc } from "./native/discordRpc";
 import { initTray } from "./native/tray";

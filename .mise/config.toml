@@ -1,0 +1,7 @@
+min_version = { soft = "2026.5.15", hard = "2026.5.12" }
+
+[tools]
+node = "26.2.0"
+pnpm = "11.17.0"
+gh = "2.93.0"
+"github:git-town/git-town" = "23.0.1"

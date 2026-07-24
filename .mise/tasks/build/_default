@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+#MISE description="Build desktop app"
+set -e
+
+pnpm run package

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+#MISE description="Make desktop app targets"
+set -e
+
+pnpm run make

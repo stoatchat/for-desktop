@@ -29,9 +29,8 @@ _Contribution guidelines for Desktop app TBA!_
 
 Before getting started, you'll want to install:
 
-- Git
-- Node.js
-- pnpm (run `corepack enable`)
+- [Git](https://git-scm.com/install/)
+- [mise-en-place](https://mise.jdx.dev/getting-started.html)
 
 Then proceed to setup:
 
@@ -40,28 +39,31 @@ Then proceed to setup:
 git clone --recursive https://github.com/stoatchat/for-desktop stoat-for-desktop
 cd stoat-for-desktop
 
+# Install tools from mise
+mise install
+
 # install all packages
-pnpm i --frozen-lockfile
+mise install:frozen
 
 # start the application
-pnpm start
+mise dev
 # ... or build the bundle
-pnpm package
+mise build
 # ... or build all distributables
-pnpm make
+mise make
 ```
 
 Various useful commands for development testing:
 
 ```bash
 # connect to the development server
-pnpm start -- --force-server http://localhost:5173
+mise exec -- pnpm start -- --force-server http://localhost:5173
 
 # test the flatpak (after `make`)
-pnpm install:flatpak
-pnpm run:flatpak
+mise exec -- pnpm install:flatpak
+mise exec -- pnpm run:flatpak
 # ... also connect to dev server like so:
-pnpm run:flatpak --force-server http://localhost:5173
+mise exec -- pnpm run:flatpak --force-server http://localhost:5173
 
 # Nix-specific instructions for testing
 pnpm package
@@ -78,7 +80,7 @@ If you want to pull in Stoat brand assets after pulling, run the following:
 
 ```bash
 # update the assets
-git -c submodule."assets".update=checkout submodule update --init assets
+mise assets
 ```
 
 Currently, this is required to build, any forks are expected to provide their own assets.

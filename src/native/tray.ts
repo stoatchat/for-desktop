@@ -29,10 +29,10 @@ export function initTray() {
   tray.setImage(trayIcon);
   tray.on("click", () => {
     if (mainWindow.isVisible()) {
-     mainWindow.hide();
+      mainWindow.hide();
     } else {
-     mainWindow.show();
-     mainWindow.focus();
+      mainWindow.show();
+      mainWindow.focus();
     }
   });
 }

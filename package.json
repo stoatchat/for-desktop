@@ -10,6 +10,9 @@
     "make": "electron-forge make",
     "publish": "electron-forge publish",
     "lint": "eslint --ext .ts,.tsx .",
+    "lint:fix": "eslint --ext --fix .ts,.tsx .",
+    "fmt": "prettier --check 'src/**/*.{ts,tsx,json}'",
+    "fmt:fix": "prettier --write 'src/**/*.{ts,tsx,json}'",
     "install:flatpak": "flatpak --user install out/make/flatpak/x86_64/chat.stoat.StoatDesktop_stable_x86_64.flatpak",
     "run:flatpak": "flatpak run --socket=session-bus chat.stoat.StoatDesktop",
     "run:nix": "/usr/bin/env electron-nix ."
@@ -20,15 +23,16 @@
     "email": "me@insrt.uk"
   },
   "devDependencies": {
-    "@electron-forge/cli": "^7.9.0",
-    "@electron-forge/maker-deb": "^7.9.0",
-    "@electron-forge/maker-flatpak": "^7.9.0",
-    "@electron-forge/maker-squirrel": "^7.9.0",
-    "@electron-forge/maker-zip": "^7.9.0",
-    "@electron-forge/plugin-auto-unpack-natives": "^7.9.0",
-    "@electron-forge/plugin-fuses": "^7.9.0",
-    "@electron-forge/plugin-vite": "^7.9.0",
-    "@electron-forge/publisher-github": "^7.9.0",
+    "@electron-forge/cli": "^7.11.2",
+    "@electron-forge/maker-deb": "^7.11.2",
+    "@electron-forge/maker-flatpak": "^7.11.2",
+    "@electron-forge/maker-squirrel": "^7.11.2",
+    "@electron-forge/maker-zip": "^7.11.2",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.11.2",
+    "@electron-forge/plugin-fuses": "^7.11.2",
+    "@electron-forge/plugin-vite": "^7.11.2",
+    "@electron-forge/publisher-github": "^7.11.2",
+    "@electron-forge/maker-appx": "^7.11.2",
     "@electron/fuses": "^1.8.0",
     "@trivago/prettier-plugin-sort-imports": "^5.2.2",
     "@types/auto-launch": "^5.0.5",
@@ -37,6 +41,8 @@
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
     "electron": "^40.8.3",
+    "electron-vite": "^5.0.0",
+    "electron-windows-store": "^2.1.0",
     "eslint": "^8.57.1",
     "eslint-plugin-import": "^2.32.0",
     "json-schema-typed": "^8.0.1",
@@ -45,7 +51,6 @@
     "vite": "^5.4.20"
   },
   "dependencies": {
-    "@electron-forge/maker-appx": "^7.9.0",
     "@homebridge/dbus-native": "^0.7.2",
     "auto-launch": "^5.0.6",
     "bufferutil": "^4.0.9",
@@ -55,5 +60,5 @@
     "update-electron-app": "^3.1.1",
     "utf-8-validate": "^6.0.5"
   },
-  "packageManager": "pnpm@10.18.1+sha512.77a884a165cbba2d8d1c19e3b4880eee6d2fcabd0d879121e282196b80042351d5eb3ca0935fa599da1dc51265cc68816ad2bddd2a2de5ea9fdf92adbec7cd34"
+  "packageManager": "pnpm@11.17.0+sha512.cca3cea332ad254bb84145f966d19f4879615210346fc92c79a047f23a0d7b3cca3c3792f0076ba1f1831d277efbcf0a9119b31a9a60eca7fb3d6231f331ef72"
 }

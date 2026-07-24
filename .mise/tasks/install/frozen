@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+#MISE description="Install dependencies with frozen lockfile"
+set -e
+
+pnpm install --frozen-lockfile

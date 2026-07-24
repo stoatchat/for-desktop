@@ -60,6 +60,7 @@ const store = new Store({
     spellchecker: true,
     hardwareAcceleration: true,
     discordRpc: true,
+    enableDevtoolsUntilTimestamp: 0,
     windowState: {
       x: 0,
       y: 0,
@@ -83,6 +84,7 @@ class Config {
       spellchecker: this.spellchecker,
       hardwareAcceleration: this.hardwareAcceleration,
       discordRpc: this.discordRpc,
+      enableDevtoolsUntilTimestamp: this.enableDevtoolsUntilTimestamp,
       windowState: this.windowState,
     });
   }
@@ -186,6 +188,19 @@ class Config {
 
     (store as never as { set(k: string, value: boolean): void }).set(
       "discordRpc",
+      value,
+    );
+
+    this.sync();
+  }
+
+  get enableDevtoolsUntilTimestamp() {
+    return (store as never as { get(k: string): number }).get("discordRpc");
+  }
+
+  set enableDevtoolsUntilTimestamp(value: number) {
+    (store as never as { set(k: string, value: number): void }).set(
+      "enableDevtoolsUntilTimestamp",
       value,
     );
 

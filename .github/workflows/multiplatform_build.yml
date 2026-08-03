@@ -42,7 +42,7 @@ jobs:
           cache: "pnpm"
 
       - name: Install dependencies
-        run: pnpm ci
+        run: pnpm ci -F stoat-desktop
 
       - name: Build
         run: pnpm package

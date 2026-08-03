@@ -49,6 +49,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       - name: Checkout assets
         run: git -c submodule."assets".update=checkout submodule update --init assets
@@ -57,7 +59,7 @@ jobs:
         if: matrix.os == 'ubuntu-latest' || matrix.os == 'ubuntu-24.04-arm'
         run: |
           sudo apt-get update
-          sudo apt-get install -y flatpak flatpak-builder
+          sudo apt-get install -y flatpak flatpak-builder libpipewire-0.3-dev
           flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
           flatpak install -y --user flathub org.freedesktop.Platform//25.08 org.freedesktop.Sdk//25.08
           flatpak install -y --user flathub org.electronjs.Electron2.BaseApp//stable
@@ -74,7 +76,12 @@ jobs:
           cache: "pnpm"
 
       - name: Install dependencies
-        run: pnpm install
+        if: matrix.os == 'ubuntu-latest'
+        run: pnpm ci
+
+      - name: Install dependencies
+        if: matrix.os != 'ubuntu-latest'
+        run: pnpm ci -F stoat-desktop
 
       - name: Publish
         run: |

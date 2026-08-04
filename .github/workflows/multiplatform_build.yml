@@ -1,0 +1,48 @@
+name: Multiplatform Build
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - ".github/**"
+      - "!.github/workflows/build.yml"
+      - ".vscode/**"
+      - ".gitignore"
+      - "README.md"
+  pull_request:
+
+jobs:
+  build:
+    name: Build App
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Checkout assets
+        run: git -c submodule."assets".update=checkout submodule update --init assets
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 26
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm ci
+
+      - name: Build
+        run: pnpm package

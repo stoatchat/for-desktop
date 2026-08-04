@@ -1,3 +1,5 @@
+name: Build & Lint
+
 on:
   push:
     branches:

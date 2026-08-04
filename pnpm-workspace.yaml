@@ -9,3 +9,7 @@ allowBuilds:
 nodeLinker: hoisted
 
 blockExoticSubdeps: false   # required to make discord-rpc work
+
+# Override for node 26 bug
+overrides:
+  yauzl: ^3.3.1

@@ -28,7 +28,8 @@ export async function initVirtualMic() {
       getClients,
       getNodes,
       linkNodesNameToId,
-      //@ts-expect-error This module may not be found on non-linux builds.
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore This module may not be found on non-linux builds.
     } = await import("node-pipewire"); //eslint-disable-line
 
     createPwThread();

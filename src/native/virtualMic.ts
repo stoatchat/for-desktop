@@ -37,7 +37,7 @@ export async function initVirtualMic() {
     // Wait for pipewire thread to start and gather neccessary data
     await delay(100);
 
-    let nodes = getNodes();
+    let nodes: any[] = getNodes();
 
     let sinkFound = false;
     let sourceFound = false;
@@ -120,14 +120,7 @@ export async function initVirtualMic() {
       // Cleanup savedNodes for nodes that are gone
       for (const id in savedNodes) {
         const asNum = Number(id);
-        let found = false;
-        for (const node of nodes) {
-          if (node.id === asNum) {
-            found = true;
-            break;
-          }
-        }
-        if (!found) {
+        if (!nodes.find((node) => node.id === asNum)) {
           savedNodes[asNum] = void 0;
         }
       }

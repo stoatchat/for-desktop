@@ -77,7 +77,7 @@ export async function initVirtualMic() {
       const pids = getPids();
       const clients = getClients();
       for (const client of clients) {
-        // If the client belongs to one of the electton processes
+        // If the client belongs to one of the electron processes
         if (pids.includes(client.pid)) {
           ourClients[client.pid] = client;
         }

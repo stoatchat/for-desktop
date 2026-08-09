@@ -4,4 +4,4 @@
 	update = none
 [submodule "node-pipewire"]
 	path = node-pipewire
-	url = git@github.com:Dadadah/node-pipewire.git
+	url = git@github.com:kakxem/node-pipewire.git

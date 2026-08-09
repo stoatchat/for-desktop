@@ -64,6 +64,12 @@ jobs:
           flatpak install -y --user flathub org.freedesktop.Platform//25.08 org.freedesktop.Sdk//25.08
           flatpak install -y --user flathub org.electronjs.Electron2.BaseApp//stable
 
+      - name: Install rust toolchain
+        if: matrix.os == 'ubuntu-latest' || matrix.os == 'ubuntu-24.04-arm'
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
@@ -76,7 +82,7 @@ jobs:
           cache: "pnpm"
 
       - name: Install dependencies
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu-latest' || matrix.os == 'ubuntu-24.04-arm'
         run: pnpm ci
 
       - name: Install dependencies

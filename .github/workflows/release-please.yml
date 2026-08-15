@@ -87,8 +87,8 @@ jobs:
         if: matrix.os == 'ubuntu-latest' || matrix.os == 'ubuntu-24.04-arm'
         uses: actions/upload-artifact@v6
         with:
-          name: stoat-linux-package-${{ case(matrix.os == 'ubuntu-latest', 'x64, 'arm64') }}
-          path: ./out/make/zip/linux/${{ case(matrix.os == 'ubuntu-latest', 'x64, 'arm64') }}/Stoat-linux-*.zip
+          name: stoat-linux-package-${{ case(matrix.os == 'ubuntu-latest', 'x64', 'arm64') }}
+          path: ./out/make/zip/linux/${{ case(matrix.os == 'ubuntu-latest', 'x64', 'arm64') }}/Stoat-linux-*.zip
   
   build-appimage:
     needs: [release-please, publish-release]
@@ -106,7 +106,7 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@v7
         with:
-          name: stoat-linux-package-${{ case(matrix.os == 'ubuntu-latest', 'x64, 'arm64') }}
+          name: stoat-linux-package-${{ case(matrix.os == 'ubuntu-latest', 'x64', 'arm64') }}
           path: /tmp/stoat
 
       - name: Preparing Container
@@ -118,7 +118,7 @@ jobs:
       - name: Extract Artifact
         run: /bin/sh ./.github/build/appimage/extract-artifact.sh
         env:
-          BUILD_ARCH: ${{ case(matrix.os == 'ubuntu-latest', 'x64, 'arm64') }}
+          BUILD_ARCH: ${{ case(matrix.os == 'ubuntu-latest', 'x64', 'arm64') }}
           BUILD_VERSION: ${{ needs.release-please.outputs.release_version }}
 
       - name: Make & Test AppImage
@@ -127,7 +127,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v6
         with:
-          name: AppImage-${{ case(matrix.os == 'ubuntu-latest', 'x64, 'arm64') }}
+          name: AppImage-${{ case(matrix.os == 'ubuntu-latest', 'x64', 'arm64') }}
           path: dist
 
   publish-appimage:

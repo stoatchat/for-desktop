@@ -2,4 +2,4 @@
 #MISE description="Build desktop app"
 set -e
 
-pnpm run package
+pnpm run -F stoat-desktop package

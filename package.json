@@ -29,7 +29,6 @@
     "@electron-forge/maker-flatpak": "^7.11.2",
     "@electron-forge/maker-squirrel": "^7.11.2",
     "@electron-forge/maker-zip": "^7.11.2",
-    "@electron-forge/plugin-auto-unpack-natives": "^7.11.2",
     "@electron-forge/plugin-fuses": "^7.11.2",
     "@electron-forge/plugin-vite": "^7.11.2",
     "@electron-forge/publisher-github": "^7.11.2",
@@ -40,7 +39,7 @@
     "@types/electron-squirrel-startup": "^1.0.2",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
-    "electron": "^40.8.3",
+    "electron": "^43.4.0",
     "electron-vite": "^5.0.0",
     "electron-windows-store": "^2.1.0",
     "eslint": "^8.57.1",
@@ -60,6 +59,9 @@
     "electron-store": "^10.1.0",
     "update-electron-app": "^3.1.1",
     "utf-8-validate": "^6.0.5"
+  },
+  "optionalDependencies": {
+    "node-pipewire": "workspace:^"
   },
   "packageManager": "pnpm@11.17.0+sha512.cca3cea332ad254bb84145f966d19f4879615210346fc92c79a047f23a0d7b3cca3c3792f0076ba1f1831d277efbcf0a9119b31a9a60eca7fb3d6231f331ef72"
 }

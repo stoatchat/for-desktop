@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 #MISE description="Make desktop app targets"
+#USAGE arg "[arch]" help="Make for a specific architecture" {
+#USAGE choices "x64" "arm64"
+#USAGE }
 set -e
 
-pnpm run make
+if [[ -z "$usage_arch" ]]; then
+  pnpm run make
+else
+  pnpm run make --arch=$usage_arch
+fi

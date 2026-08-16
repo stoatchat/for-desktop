@@ -89,7 +89,9 @@ export function createMainWindow() {
   }
 
   // load the entrypoint
-  mainWindow.loadURL(BUILD_URL.toString());
+  mainWindow
+    .loadURL(BUILD_URL.toString())
+    .then(() => mainWindow.webContents.reload());
 
   // minimise window to tray
   mainWindow.on("close", (event) => {
@@ -200,8 +202,6 @@ export function createMainWindow() {
         .then((sources) => {
           // Shortcut for linux wayland.
           if (sources.length == 1) {
-            // TODO: Get audio to work with wayland
-            // See vencord for an implementation using a virtual microphone.
             request.audioRequested
               ? callback({
                   video: sources[0],

@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.5.1](https://github.com/stoatchat/for-desktop/compare/v1.5.0...v1.5.1) (2026-08-16)
+
+
+### Bug Fixes
+
+* Release please failed to add a remote ([#275](https://github.com/stoatchat/for-desktop/issues/275)) ([dc3762c](https://github.com/stoatchat/for-desktop/commit/dc3762c1344a41658fc298dbe328ba641859130e))
+* Release please failed to add a remote and used wrong matrix ([dc3762c](https://github.com/stoatchat/for-desktop/commit/dc3762c1344a41658fc298dbe328ba641859130e))
+* upload appimage zsyncs too ([#279](https://github.com/stoatchat/for-desktop/issues/279)) ([63794c7](https://github.com/stoatchat/for-desktop/commit/63794c722bec9e0fba93afadd85ec989d625693b))
+
 ## [1.5.0](https://github.com/stoatchat/for-desktop/compare/v1.4.2...v1.5.0) (2026-08-16)
 
 

@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.5.0](https://github.com/stoatchat/for-desktop/compare/v1.4.2...v1.5.0) (2026-08-16)
+
+
+### Features
+
+* Add a virtual microphone for audio streaming on linux ([#266](https://github.com/stoatchat/for-desktop/issues/266)) ([e5dc6ee](https://github.com/stoatchat/for-desktop/commit/e5dc6ee4fc65286581c65873a42147f8a017cf81))
+* Add AppImage build flow to release ([#271](https://github.com/stoatchat/for-desktop/issues/271)) ([1fbd6f7](https://github.com/stoatchat/for-desktop/commit/1fbd6f7dfb48363effc64948a133461cffd97b3b))
+* Add flatpak build to release-please and update flatpak ([#228](https://github.com/stoatchat/for-desktop/issues/228)) ([c557333](https://github.com/stoatchat/for-desktop/commit/c5573330a93927b60aa404561069c20d06dd48b4))
+* Add Mic and Webcam Entitlements for MacOS ([85cbaaf](https://github.com/stoatchat/for-desktop/commit/85cbaaffa5a602cffa0fdedf50a00ec8b03911eb))
+
+
+### Bug Fixes
+
+* Add Mic and Webcam Entitlements ([#259](https://github.com/stoatchat/for-desktop/issues/259)) ([85cbaaf](https://github.com/stoatchat/for-desktop/commit/85cbaaffa5a602cffa0fdedf50a00ec8b03911eb))
+* Add this missing ' ([#274](https://github.com/stoatchat/for-desktop/issues/274)) ([f7223bc](https://github.com/stoatchat/for-desktop/commit/f7223bcddbbbcb9a7b84edbfbacf3a920759083d))
+* skip maximise if starting to tray ([#183](https://github.com/stoatchat/for-desktop/issues/183)) ([8192855](https://github.com/stoatchat/for-desktop/commit/8192855a04dae4f61b571fdbc2953073d4a1db4e))
+* Update electron to remove stream echo on windows and mac ([e5dc6ee](https://github.com/stoatchat/for-desktop/commit/e5dc6ee4fc65286581c65873a42147f8a017cf81))
+* Use liquid glass icon on MacOS ([#258](https://github.com/stoatchat/for-desktop/issues/258)) ([9e1df87](https://github.com/stoatchat/for-desktop/commit/9e1df87a4ee1604b0bfd143ce4507ea2f0e37e63))
+* What if we just reloaded every startup, would that kill cache? ([#269](https://github.com/stoatchat/for-desktop/issues/269)) ([f79b113](https://github.com/stoatchat/for-desktop/commit/f79b113da1b6581332c4ef9dfb58018f668a6366))
+
 ## [1.4.2](https://github.com/stoatchat/for-desktop/compare/v1.4.1...v1.4.2) (2026-07-17)
 
 

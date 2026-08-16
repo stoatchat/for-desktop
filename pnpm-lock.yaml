@@ -85,8 +85,8 @@ importers:
         specifier: ^5.62.0
         version: 5.62.0(eslint@8.57.1(supports-color@8.1.1))(supports-color@8.1.1)(typescript@4.5.5)
       electron:
-        specifier: ^43.2.0
-        version: 43.2.0(supports-color@8.1.1)
+        specifier: ^43.4.0
+        version: 43.4.0(supports-color@8.1.1)
       electron-vite:
         specifier: ^5.0.0
         version: 5.0.0(supports-color@8.1.1)(vite@5.4.20(@types/node@24.10.13)(terser@5.49.0))
@@ -1820,8 +1820,8 @@ packages:
     resolution: {integrity: sha512-bO3y10YikuUwUuDUQRM4KfwNkKhnpVO7IPdbsrejwN9/AABJzzTQ4GeHwyzNSrVO+tEH3/Np255a3sVZpZDjvg==}
     engines: {node: '>=8.0.0'}
 
-  electron@43.2.0:
-    resolution: {integrity: sha512-80zvrgG7ZRXD+tD0IyLvrnN9n+veSxadMRsMaC9wKKP3iUbtC7rGM8+dVuCmOb0Rrwwv8ESW4awnUZh9Hbp1fA==}
+  electron@43.4.0:
+    resolution: {integrity: sha512-3qxGF0CeQbiox5oWV1JlbWGQ1VerbmDhTFqW4sJ8h7uqTHniFYPObXJcDna0DMh32et0fFyKzz0YY8lJv3t5jg==}
     engines: {node: '>= 22.12.0'}
     hasBin: true
 
@@ -4995,7 +4995,7 @@ snapshots:
     dependencies:
       '@types/http-cache-semantics': 4.0.4
       '@types/keyv': 3.1.4
-      '@types/node': 24.10.13
+      '@types/node': 18.19.130
       '@types/responselike': 1.0.3
 
   '@types/discord-rpc@4.0.9':
@@ -5010,7 +5010,7 @@ snapshots:
 
   '@types/fs-extra@9.0.13':
     dependencies:
-      '@types/node': 24.10.13
+      '@types/node': 18.19.130
     optional: true
 
   '@types/http-cache-semantics@4.0.4': {}
@@ -5021,11 +5021,11 @@ snapshots:
 
   '@types/keyv@3.1.4':
     dependencies:
-      '@types/node': 24.10.13
+      '@types/node': 18.19.130
 
   '@types/mute-stream@0.0.4':
     dependencies:
-      '@types/node': 24.10.13
+      '@types/node': 18.19.130
 
   '@types/node@18.19.130':
     dependencies:
@@ -5041,7 +5041,7 @@ snapshots:
 
   '@types/responselike@1.0.3':
     dependencies:
-      '@types/node': 24.10.13
+      '@types/node': 18.19.130
 
   '@types/semver@7.7.1': {}
 
@@ -5049,7 +5049,7 @@ snapshots:
 
   '@types/yauzl@2.10.3':
     dependencies:
-      '@types/node': 24.10.13
+      '@types/node': 18.19.130
     optional: true
 
   '@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0(eslint@8.57.1(supports-color@8.1.1))(supports-color@8.1.1)(typescript@4.5.5))(eslint@8.57.1(supports-color@8.1.1))(supports-color@8.1.1)(typescript@4.5.5)':
@@ -5905,7 +5905,7 @@ snapshots:
       - supports-color
     optional: true
 
-  electron@43.2.0(supports-color@8.1.1):
+  electron@43.4.0(supports-color@8.1.1):
     dependencies:
       '@electron-internal/extract-zip': 1.0.5
       '@electron/get': 5.1.0(supports-color@8.1.1)
@@ -6788,7 +6788,7 @@ snapshots:
 
   jest-worker@27.5.1:
     dependencies:
-      '@types/node': 24.10.13
+      '@types/node': 18.19.130
       merge-stream: 2.0.0
       supports-color: 8.1.1
 

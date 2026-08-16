@@ -31,7 +31,7 @@ Before getting started, you'll want to install:
 
 - [Git](https://git-scm.com/install/)
 - [mise-en-place](https://mise.jdx.dev/getting-started.html)
-- rust
+- rust (only needed for a production build on linux to enable node-pipewire)
 
 Then proceed to setup:
 

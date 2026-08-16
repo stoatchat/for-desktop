@@ -60,9 +60,9 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y flatpak flatpak-builder libpipewire-0.3-dev
-          flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-          flatpak install -y --user flathub org.freedesktop.Platform//25.08 org.freedesktop.Sdk//25.08
-          flatpak install -y --user flathub org.electronjs.Electron2.BaseApp//stable
+          flatpak remote-add -u --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+          flatpak install -y -u flathub org.freedesktop.Platform//25.08 org.freedesktop.Sdk//25.08
+          flatpak install -y -u flathub org.electronjs.Electron2.BaseApp//stable
 
       - name: Install rust toolchain
         if: matrix.os == 'ubuntu-latest' || matrix.os == 'ubuntu-24.04-arm'
@@ -78,7 +78,8 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 26
+          # TODO: Figure out why 26 isn't working
+          node-version: 24
           cache: "pnpm"
 
       - name: Install dependencies
@@ -106,10 +107,10 @@ jobs:
   build-appimage:
     needs: [release-please, publish-release]
     if: needs.release-please.outputs.release_created == 'true'
-    runs-on: ${{ matrix.runs-on }}
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        runs-on: [ubuntu-latest, ubuntu-24.04-arm]
+        os: [ubuntu-latest, ubuntu-24.04-arm]
     container: ghcr.io/pkgforge-dev/archlinux:latest
 
     steps:
@@ -147,6 +148,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: [release-please, build-appimage]
     steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
       - name: Download Artifact
         uses: actions/download-artifact@v7
         with:
@@ -154,6 +158,6 @@ jobs:
           merge-multiple: true
 
       - name: Update release with AppImage
-        run: gh release upload ${{ needs.release-please.outputs.release_version }} Stoat-*.AppImage
+        run: gh release upload v${{ needs.release-please.outputs.release_version }} Stoat-*.AppImage
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

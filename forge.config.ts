@@ -127,6 +127,14 @@ const config: ForgeConfig = {
     icon: process.platform === "darwin" 
       ? `${ASSET_DIR}/icon.icon` 
       : `${ASSET_DIR}/icon`,
+    osxSign: {
+      optionsForFile: () => {
+        return {
+          entitlements: './entitlements.plist'
+        };
+      }
+    }
+
     // extraResource: [
     //   // include all the asset files
     //   ...globSync(ASSET_DIR + "/**/*"),

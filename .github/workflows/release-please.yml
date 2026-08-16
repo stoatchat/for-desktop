@@ -158,6 +158,6 @@ jobs:
           merge-multiple: true
 
       - name: Update release with AppImage
-        run: gh release upload v${{ needs.release-please.outputs.release_version }} Stoat-*.AppImage
+        run: gh release upload v${{ needs.release-please.outputs.release_version }} Stoat-*.AppImage*
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.2](https://github.com/stoatchat/for-desktop/compare/v1.5.1...v1.5.2) (2026-08-17)
+
+
+### Bug Fixes
+
+* Remove node-pipewire submodule and actually package native dep ([#280](https://github.com/stoatchat/for-desktop/issues/280)) ([09f1bc0](https://github.com/stoatchat/for-desktop/commit/09f1bc06b602fd64ee560a1dd42db8f5dafd3f96))
+
 ## [1.5.1](https://github.com/stoatchat/for-desktop/compare/v1.5.0...v1.5.1) (2026-08-16)
 
 

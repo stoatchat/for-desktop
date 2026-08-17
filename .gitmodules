@@ -2,6 +2,3 @@
 	path = assets
 	url = https://github.com/stoatchat/assets
 	update = none
-[submodule "node-pipewire"]
-	path = node-pipewire
-	url = git@github.com:kakxem/node-pipewire.git

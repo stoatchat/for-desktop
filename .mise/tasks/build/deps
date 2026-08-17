@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-#MISE description="Build node-pipewire dependency"
-set -e
-
-pnpm -F node-pipewire build-release

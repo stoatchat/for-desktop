@@ -28,14 +28,6 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Install pipewire library
-        run: sudo apt install -y libpipewire-0.3-dev
-
-      - name: Install rust toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-
       - name: Checkout assets
         run: mise assets
 

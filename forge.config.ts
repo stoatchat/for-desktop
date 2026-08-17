@@ -9,6 +9,8 @@ import { VitePlugin } from "@electron-forge/plugin-vite";
 import { PublisherGithub } from "@electron-forge/publisher-github";
 import type { ForgeConfig } from "@electron-forge/shared-types";
 import { FuseV1Options, FuseVersion } from "@electron/fuses";
+import fs from "node:fs";
+import path from "node:path";
 
 // import { globSync } from "node:fs";
 
@@ -124,16 +126,17 @@ const config: ForgeConfig = {
     asar: true,
     name: STRINGS.name,
     executableName: STRINGS.execName,
-    icon: process.platform === "darwin" 
-      ? `${ASSET_DIR}/icon.icon` 
-      : `${ASSET_DIR}/icon`,
+    icon:
+      process.platform === "darwin"
+        ? `${ASSET_DIR}/icon.icon`
+        : `${ASSET_DIR}/icon`,
     osxSign: {
       optionsForFile: () => {
         return {
-          entitlements: './entitlements.plist'
+          entitlements: "./entitlements.plist",
         };
-      }
-    }
+      },
+    },
 
     // extraResource: [
     //   // include all the asset files
@@ -142,7 +145,22 @@ const config: ForgeConfig = {
   },
   rebuildConfig: {},
   makers,
+  hooks: {
+    packageAfterCopy: async (_config, buildPath, _version, platform) => {
+      if (platform === "linux") {
+        fs.cpSync(
+          "node_modules/node-pipewire",
+          path.join(buildPath, "node_modules/node-pipewire"),
+          { recursive: true },
+        );
+      }
+    },
+  },
   plugins: [
+    {
+      name: "@electron-forge/plugin-auto-unpack-natives",
+      config: {},
+    },
     new VitePlugin({
       // `build` can specify multiple entry builds, which can be Main process, Preload scripts, Worker process, etc.
       // If you are familiar with Vite configuration, it will look really familiar.

@@ -8,6 +8,7 @@ import {
   desktopCapturer,
   ipcMain,
   nativeImage,
+  screen,
   session,
 } from "electron";
 
@@ -29,10 +30,38 @@ export const BUILD_URL = new URL(
 // internal window state
 let shouldQuit = false;
 
+// how much of the window has to land on a display for it to count as reachable
+const MIN_VISIBLE_PIXELS = 100;
+
 // load the window icon
 const windowIcon = nativeImage.createFromDataURL(windowIconAsset);
 
 // windowIcon.setTemplateImage(true);
+
+/**
+ * Check whether a saved window rectangle still overlaps a connected display.
+ *
+ * Monitors get unplugged and resolutions change between launches, so a stored
+ * position can easily point somewhere that no longer exists.
+ */
+function isOnScreen(bounds: {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}) {
+  return screen.getAllDisplays().some(({ workArea }) => {
+    const overlapX =
+      Math.min(bounds.x + bounds.width, workArea.x + workArea.width) -
+      Math.max(bounds.x, workArea.x);
+
+    const overlapY =
+      Math.min(bounds.y + bounds.height, workArea.y + workArea.height) -
+      Math.max(bounds.y, workArea.y);
+
+    return overlapX >= MIN_VISIBLE_PIXELS && overlapY >= MIN_VISIBLE_PIXELS;
+  });
+}
 
 /**
  * Create the main application window
@@ -60,27 +89,44 @@ export function createMainWindow() {
       preload: join(__dirname, "preload.js"),
       contextIsolation: true,
       nodeIntegration: false,
-      spellcheck: true,
+      spellcheck: config.spellchecker,
     },
   });
 
   // hide the options
   mainWindow.setMenu(null);
 
-  // restore last position if it was moved previously
-  if (config.windowState.x > 0 || config.windowState.y > 0) {
-    mainWindow.setPosition(
-      config.windowState.x ?? 0,
-      config.windowState.y ?? 0,
-    );
-  }
+  // apply the stored spellchecker preference; the setter only runs when the
+  // user toggles it, so without this the setting reverted on every launch
+  mainWindow.webContents.session.setSpellCheckerEnabled(config.spellchecker);
 
   // restore last size if it was resized previously
+  // (before the position, which is validated against the resulting size)
   if (config.windowState.width > 0 && config.windowState.height > 0) {
     mainWindow.setSize(
       config.windowState.width ?? 1280,
       config.windowState.height ?? 720,
     );
+  }
+
+  // restore last position if it was moved previously, but only when it still
+  // lands on a display; otherwise the window opens somewhere unreachable after
+  // a monitor is unplugged or rearranged
+  // (negative coordinates are valid: displays can sit left of / above the primary one)
+  if (config.windowState.x !== 0 || config.windowState.y !== 0) {
+    const [width, height] = mainWindow.getSize();
+    const bounds = {
+      x: config.windowState.x ?? 0,
+      y: config.windowState.y ?? 0,
+      width,
+      height,
+    };
+
+    if (isOnScreen(bounds)) {
+      mainWindow.setPosition(bounds.x, bounds.y);
+    } else {
+      mainWindow.center();
+    }
   }
 
   // maximise the window if it was maximised before
@@ -212,10 +258,18 @@ export function createMainWindow() {
                 });
             return;
           }
+          // drop any listener left over from a picker the user dismissed
+          // without choosing a source: it would consume this request's reply
+          // and hand it to a request that is already dead, leaving screen
+          // sharing broken until the app is restarted
+          ipcMain.removeAllListeners("screenPickerCallback");
+
           ipcMain.once(
             "screenPickerCallback",
             (_, idx: number, audio: boolean) => {
-              if (idx < 0 || idx > sources.length) {
+              // `idx === sources.length` is out of bounds and used to hand
+              // `undefined` to the callback as if it were a valid source
+              if (idx < 0 || idx >= sources.length) {
                 callback({});
               } else {
                 audio
@@ -232,13 +286,14 @@ export function createMainWindow() {
           mainWindow.webContents.send(
             "screenPicker",
             sources.map((source, idx) => {
-              const image = source.appIcon;
+              let image = source.appIcon;
+              // `resize` returns a new image rather than mutating in place, so
+              // discarding the result sent the full-size icon over IPC instead
               if (image) {
-                if (image.getAspectRatio() > 1) {
-                  image.resize({ width: 256 });
-                } else {
-                  image.resize({ height: 256 });
-                }
+                image =
+                  image.getAspectRatio() > 1
+                    ? image.resize({ width: 256 })
+                    : image.resize({ height: 256 });
               }
               return {
                 idx: idx,
@@ -248,6 +303,12 @@ export function createMainWindow() {
               };
             }),
           );
+        })
+        .catch((err) => {
+          // always answer the request, otherwise the renderer waits forever
+          console.error("Failed to enumerate screen capture sources", err);
+          ipcMain.removeAllListeners("screenPickerCallback");
+          callback({});
         });
     },
     { useSystemPicker: true },

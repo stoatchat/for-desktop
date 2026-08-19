@@ -148,12 +148,14 @@ class Config {
   }
 
   set spellchecker(value: boolean) {
-    mainWindow.webContents.session.setSpellCheckerEnabled(value);
-
+    // persist before applying, so a failure to reach the window cannot lose the
+    // preference the user just set
     (store as never as { set(k: string, value: boolean): void }).set(
       "spellchecker",
       value,
     );
+
+    mainWindow.webContents.session.setSpellCheckerEnabled(value);
 
     this.sync();
   }
@@ -178,16 +180,19 @@ class Config {
   }
 
   set discordRpc(value: boolean) {
+    // persist before acting on it: `initDiscordRpc` reads this setting back out
+    // of the store, so running it first made it observe the previous value and
+    // bail out, leaving RPC off until the app was restarted
+    (store as never as { set(k: string, value: boolean): void }).set(
+      "discordRpc",
+      value,
+    );
+
     if (value) {
       initDiscordRpc();
     } else {
       destroyDiscordRpc();
     }
-
-    (store as never as { set(k: string, value: boolean): void }).set(
-      "discordRpc",
-      value,
-    );
 
     this.sync();
   }

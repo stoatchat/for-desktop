@@ -3,6 +3,8 @@ import { IUpdateInfo, updateElectronApp } from "update-electron-app";
 import { BrowserWindow, Notification, app, shell } from "electron";
 import started from "electron-squirrel-startup";
 
+import { initAutoLaunch } from "./native/autoLaunch";
+import { initBadges } from "./native/badges";
 import { config } from "./native/config";
 import { initDiscordRpc } from "./native/discordRpc";
 import { initTray } from "./native/tray";
@@ -40,6 +42,11 @@ if (acquiredLock) {
 
   // create and configure the app when electron is ready
   app.on("ready", () => {
+    // register IPC handlers before the window exists, so they are always in
+    // place by the time the renderer loads and starts calling into them
+    initAutoLaunch();
+    initBadges();
+
     // create window and application contexts
     createMainWindow();
 

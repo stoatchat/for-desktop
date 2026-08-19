@@ -66,4 +66,17 @@ export async function setBadgeCount(count: number) {
   }
 }
 
-ipcMain.on("setBadgeCount", (_event, count: number) => setBadgeCount(count));
+/**
+ * Register the badge count IPC handler.
+ *
+ * The renderer has been able to call `native.setBadgeCount` since the preload
+ * bridge was added, but nothing ever imported this module, so the main process
+ * never listened for it and taskbar badges silently did nothing.
+ */
+export function initBadges() {
+  ipcMain.on("setBadgeCount", (_event, count: number) =>
+    setBadgeCount(count).catch((err) =>
+      console.error("Failed to set badge count", err),
+    ),
+  );
+}

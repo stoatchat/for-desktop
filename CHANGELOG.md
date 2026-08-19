@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.5.3](https://github.com/stoatchat/for-desktop/compare/v1.5.2...v1.5.3) (2026-08-19)
+
+
+### Bug Fixes
+
+* Add temp appimage workflow, fix some ci/cd bugs ([#285](https://github.com/stoatchat/for-desktop/issues/285)) ([b6b90c4](https://github.com/stoatchat/for-desktop/commit/b6b90c4304706f480fd98cb7e3ed8c4cfe0c6b5d))
+
+
+### Reverts
+
+* Add Mic and Webcam Entitlements ([#259](https://github.com/stoatchat/for-desktop/issues/259)) ([#283](https://github.com/stoatchat/for-desktop/issues/283)) ([644f076](https://github.com/stoatchat/for-desktop/commit/644f0765b4d2f83656ea0868f4898091ca9f6442))
+
 ## [1.5.2](https://github.com/stoatchat/for-desktop/compare/v1.5.1...v1.5.2) (2026-08-17)
 
 

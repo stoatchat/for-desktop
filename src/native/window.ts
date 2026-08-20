@@ -154,7 +154,7 @@ export function createMainWindow() {
   // configure spellchecker context menu
   mainWindow.webContents.on("context-menu", (_, params) => {
     const menu = new Menu();
-
+    if (params.isEditable) {
     // add all suggestions
     for (const suggestion of params.dictionarySuggestions) {
       menu.append(
@@ -185,6 +185,15 @@ export function createMainWindow() {
         click() {
           config.spellchecker = !config.spellchecker;
         },
+        }),
+      );
+    }
+
+    menu.append(
+      new MenuItem({
+        label: "Copy Image",
+        visible: params.hasImageContents,
+        click: () => mainWindow.webContents.copyImageAt(params.x, params.y),
       }),
     );
 

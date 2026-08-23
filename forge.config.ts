@@ -91,8 +91,6 @@ const makers: ForgeConfig["makers"] = [
         "--talk-name=com.canonical.indicator.application",
         "--talk-name=com.canonical.Unity",
         "--env=XCURSOR_PATH=/run/host/user-share/icons:/run/host/share/icons",
-        "--env=ELECTRON_TRASH=gio",
-        "--env=TMPDIR=xdg-run/app/chat.stoat.StoatDesktop",
       ],
       files: [],
     } as MakerFlatpakOptionsConfig,

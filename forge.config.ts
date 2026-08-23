@@ -1,5 +1,3 @@
-import { MakerAppX } from "@electron-forge/maker-appx";
-import { MakerDeb } from "@electron-forge/maker-deb";
 import { MakerFlatpak } from "@electron-forge/maker-flatpak";
 import { MakerFlatpakOptionsConfig } from "@electron-forge/maker-flatpak/dist/Config";
 import { MakerSquirrel } from "@electron-forge/maker-squirrel";
@@ -98,28 +96,6 @@ const makers: ForgeConfig["makers"] = [
     } as MakerFlatpakOptionsConfig,
   }),
 ];
-
-// skip these makers in CI/CD
-if (!process.env.PLATFORM) {
-  makers.push(
-    // must be manually built (freezes CI process)
-    // not much use in being published anyhow
-    new MakerAppX({
-      certPass: "",
-      packageExecutable: `app\\${STRINGS.execName}.exe`,
-      publisher: "CN=B040CC7E-0016-4AF5-957F-F8977A6CFA3B",
-    }),
-    // testing purposes
-    new MakerDeb({
-      options: {
-        productName: STRINGS.name,
-        productDescription: STRINGS.description,
-        categories: ["Network"],
-        icon: `${ASSET_DIR}/icon.png`,
-      },
-    }),
-  );
-}
 
 const config: ForgeConfig = {
   packagerConfig: {

@@ -10,6 +10,9 @@ import { initTray } from "./native/tray";
 import { initVirtualMic } from "./native/virtualMic";
 import { BUILD_URL, createMainWindow, mainWindow } from "./native/window";
 
+// Added by ICEBADGERR 02/10/2026
+import { detectRunningGame } from "./native/gameDetection";
+
 // Squirrel-specific logic
 // create/remove shortcuts on Windows when installing / uninstalling
 // we just need to close out of the app immediately
@@ -39,6 +42,9 @@ if (acquiredLock) {
   // start auto update logic
   updateElectronApp({ onNotifyUser });
 
+  //Variable to check the current game process that is running 
+  let currentGame: string | null = null;
+
   // create and configure the app when electron is ready
   app.on("ready", () => {
     // create window and application contexts
@@ -55,6 +61,21 @@ if (acquiredLock) {
     initDiscordRpc();
     initVirtualMic();
     initAutoLaunch();
+
+    //Detect game that is being played code 
+    setInterval(async () => {
+      const game = await detectRunningGame();
+
+      //Only log if it is changed
+      if (game !== currentGame) {
+        currentGame = game;
+        if (game) {
+          console.log('Now Playing:', game);
+        } else{
+          console.log('Stopped Playing');
+        }
+      }
+    }, 5000); //Checks every 5 seconds 
 
     // Windows specific fix for notifications
     if (process.platform === "win32") {

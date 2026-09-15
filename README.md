@@ -66,6 +66,7 @@ mise exec -- pnpm run:flatpak
 mise exec -- pnpm run:flatpak --force-server http://localhost:5173
 
 # Nix-specific instructions for testing
+nix develop
 pnpm package
 pnpm run:nix
 # ... as before:

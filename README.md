@@ -45,6 +45,9 @@ mise install
 # install all packages
 mise install:frozen
 
+# update the assets
+git -c submodule."assets".update=checkout submodule update --init assets
+
 # start the application
 mise dev
 # ... or build the bundle

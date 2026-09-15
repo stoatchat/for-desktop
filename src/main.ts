@@ -1,3 +1,5 @@
+import fs from "node:fs";
+import path from "node:path";
 import { IUpdateInfo, updateElectronApp } from "update-electron-app";
 
 import { BrowserWindow, Notification, app, shell } from "electron";
@@ -9,6 +11,21 @@ import { initDiscordRpc } from "./native/discordRpc";
 import { initTray } from "./native/tray";
 import { initVirtualMic } from "./native/virtualMic";
 import { BUILD_URL, createMainWindow, mainWindow } from "./native/window";
+
+// In Flatpak, we have to update the temp dir to a shared directory across host and sandbox;
+// otherwise, the icon will not show up in the tray when using app indicators.
+if (process.platform === "linux" && process.env.FLATPAK_ID) {
+  const runtimeDir = process.env.XDG_RUNTIME_DIR;
+  if (runtimeDir) {
+    try {
+      const sharedTmpDir = path.join(runtimeDir, "app", process.env.FLATPAK_ID);
+      fs.mkdirSync(sharedTmpDir, { recursive: true });
+      process.env.TMPDIR = sharedTmpDir;
+    } catch (error) {
+      console.error("Failed to set up host-visible TMPDIR:", error);
+    }
+  }
+}
 
 // Squirrel-specific logic
 // create/remove shortcuts on Windows when installing / uninstalling

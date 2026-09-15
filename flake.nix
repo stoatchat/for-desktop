@@ -15,8 +15,6 @@
             exec ${pkgs.lib.getExe pkgs.electron} "$@"
           '')
           zip
-          dpkg
-          fakeroot
           flatpak
           flatpak-builder
           elfutils

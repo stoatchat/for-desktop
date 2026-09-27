@@ -106,6 +106,21 @@ if (acquiredLock) {
 
   // ensure URLs launch in external context
   app.on("web-contents-created", (_, contents) => {
+    // DevTools in dev env only, to avoid users opening it in production
+    if (!app.isPackaged) {
+      contents.on("before-input-event", (event, input) => {
+        const isMac = process.platform === "darwin";
+        const isDevToolsShortcut = isMac
+          ? input.meta && input.alt && input.key.toLowerCase() === "i"
+          : input.control && input.shift && input.key.toLowerCase() === "i";
+
+        if (input.key === "F12" || isDevToolsShortcut) {
+          contents.toggleDevTools();
+          event.preventDefault();
+        }
+      });
+    }
+
     // prevent navigation out of build URL origin
     contents.on("will-navigate", (event, navigationUrl) => {
       if (new URL(navigationUrl).origin !== BUILD_URL.origin) {

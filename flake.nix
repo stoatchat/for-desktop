@@ -1,30 +1,44 @@
 {
-  description = "Stoat for Desktop Development shell";
+  description = "Development environment for Stoat desktop app";
 
   inputs = {
-    nixpkgs.url = "https://channels.nixos.org/nixpkgs-unstable/nixexprs.tar.zst";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
   };
 
-  outputs = inputs: {
-    devShells = builtins.mapAttrs (system: pkgs: {
-      default = pkgs.mkShell {
-        buildInputs = with pkgs; [
-          mise
-          pnpm
-          (writeShellScriptBin "electron-nix" ''
-            exec ${pkgs.lib.getExe pkgs.electron} "$@"
-          '')
-          zip
-          flatpak
-          flatpak-builder
-          elfutils
-        ];
+  outputs =
+    { self, nixpkgs }@inputs:
+    let
+      supportedSystems = [
+        "x86_64-linux"
+        "aarch64-linux"
+      ];
+      forEachSystem = nixpkgs.lib.genAttrs supportedSystems;
+    in
+    {
+      devShells = forEachSystem (
+        system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+        in
+        {
+          default = pkgs.mkShell {
+            buildInputs = with pkgs; [
+              mise
+              pnpm
+              python3
+              electron
+              zip
+              flatpak
+              flatpak-builder
+              elfutils
+            ];
 
-        shellHook = ''
-          export ELECTRON_OVERRIDE_DIST_PATH="${pkgs.electron}/bin"
-          export MISE_NODE_COMPILE=false
-        '';
-      };
-    }) inputs.nixpkgs.legacyPackages;
-  };
+            shellHook = ''
+              export ELECTRON_OVERRIDE_DIST_PATH="${pkgs.electron}/bin"
+              export MISE_NODE_COMPILE=false
+            '';
+          };
+        }
+      );
+    };
 }

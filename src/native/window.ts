@@ -153,7 +153,25 @@ export function createMainWindow() {
 
   // configure spellchecker context menu
   mainWindow.webContents.on("context-menu", (_, params) => {
+    // Only show this menu if the user is right-clicking editable text or a misspelled word
+    // if (!params.isEditable && !params.misspelledWord) {
+    //   return;
+    // }
+
     const menu = new Menu();
+
+    if (params.isEditable) {
+      menu.append(new MenuItem({ label: "Cut", role: "cut" }));
+      menu.append(new MenuItem({ label: "Copy", role: "copy" }));
+      menu.append(new MenuItem({ label: "Paste", role: "paste" }));
+      menu.append(new MenuItem({ type: "separator" }));
+    } else if (params.selectionText.trim().length > 0) {
+      menu.append(new MenuItem({ label: "Copy", role: "copy" }));
+      menu.append(new MenuItem({ type: "separator" }));
+    }
+
+    menu.append(new MenuItem({ label: "Select All", role: "selectAll" }));
+    menu.append(new MenuItem({ type: "separator" }));
 
     // add all suggestions
     for (const suggestion of params.dictionarySuggestions) {

@@ -6,6 +6,7 @@ import { BrowserWindow, Notification, app, shell } from "electron";
 import started from "electron-squirrel-startup";
 
 import { initAutoLaunch } from "./native/autoLaunch";
+import { initBadges } from "./native/badges";
 import { config } from "./native/config";
 import { initDiscordRpc } from "./native/discordRpc";
 import { initTray } from "./native/tray";
@@ -53,8 +54,12 @@ const onNotifyUser = (_info: IUpdateInfo) => {
 };
 
 if (acquiredLock) {
-  // start auto update logic
-  updateElectronApp({ onNotifyUser });
+  if (process.platform === "linux") {
+    app.setDesktopName("chat.stoat.StoatDesktop");
+  } else {
+    // start auto update logic
+    updateElectronApp({ onNotifyUser });
+  }
 
   // create and configure the app when electron is ready
   app.on("ready", () => {
@@ -72,6 +77,7 @@ if (acquiredLock) {
     initDiscordRpc();
     initVirtualMic();
     initAutoLaunch();
+    initBadges();
 
     // Windows specific fix for notifications
     if (process.platform === "win32") {

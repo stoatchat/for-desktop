@@ -14,7 +14,7 @@
     "fmt": "prettier --check 'src/**/*.{ts,tsx,json}'",
     "fmt:fix": "prettier --write 'src/**/*.{ts,tsx,json}'",
     "install:flatpak": "flatpak --user install out/make/flatpak/x86_64/chat.stoat.StoatDesktop_stable_x86_64.flatpak",
-    "run:flatpak": "flatpak run chat.stoat.StoatDesktop",
+    "run:flatpak": "flatpak run --log-session-bus chat.stoat.StoatDesktop",
     "run:nix": "/usr/bin/env electron-nix ."
   },
   "keywords": [],
@@ -51,7 +51,6 @@
     "vite": "^5.4.20"
   },
   "dependencies": {
-    "@homebridge/dbus-native": "^0.7.2",
     "auto-launch": "^5.0.6",
     "bufferutil": "^4.0.9",
     "discord-rpc": "^4.0.1",

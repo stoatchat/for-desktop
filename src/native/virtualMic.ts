@@ -25,7 +25,9 @@ export async function initVirtualMic() {
       createPwThread,
       createSink,
       createSource,
+      destroyObject,
       getClients,
+      getLinks,
       getNodes,
       linkNodesNameToId,
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -70,7 +72,7 @@ export async function initVirtualMic() {
 
     linkNodesNameToId(sinkNode.name, sourceNode.id, false);
 
-    setInterval(() => {
+    const linkInterval = setInterval(() => {
       const ourClients: Record<number, any> = {};
       const paClients: any[] = [];
 
@@ -125,6 +127,26 @@ export async function initVirtualMic() {
         }
       }
     }, 1000);
+
+    // Unlink other apps from our virtual sink before quitting. Otherwise the sink
+    // disappears while they are still linked to it, and WirePlumber pauses their
+    // media players as if their output device had been unplugged.
+    let unlinked = false;
+    app.on("will-quit", (event) => {
+      if (unlinked) return;
+      unlinked = true;
+      event.preventDefault();
+      clearInterval(linkInterval);
+
+      for (const link of getLinks()) {
+        if (Number(link.input_node_id) === Number(sinkNode.id)) {
+          destroyObject(link.id);
+        }
+      }
+
+      // Give PipeWire time to remove the links before the sink goes away
+      delay(200).then(() => app.quit());
+    });
   } catch {
     console.log(
       "node-pipewire failed to load. Screen share audio will not work on linux wayland.",

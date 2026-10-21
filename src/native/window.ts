@@ -13,6 +13,7 @@ import {
 
 import windowIconAsset from "../../assets/desktop/icon.png?asset";
 
+import { setBadgeCount } from "./badges";
 import { config } from "./config";
 import { updateTrayMenu } from "./tray";
 
@@ -262,8 +263,11 @@ export function createMainWindow() {
 
   // mainWindow.webContents.openDevTools();
 
-  // let i = 0;
-  // setInterval(() => setBadgeCount((++i % 30) + 1), 1000);
+  let i = 0;
+  setInterval(() => {
+    console.log(i);
+    setBadgeCount((++i % 30) + 1);
+  }, 1000);
 }
 
 /**

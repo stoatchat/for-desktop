@@ -9,7 +9,7 @@ import { initAutoLaunch } from "./native/autoLaunch";
 import { config } from "./native/config";
 import { initDiscordRpc } from "./native/discordRpc";
 import { initTray } from "./native/tray";
-import { initVirtualMic } from "./native/virtualMic";
+import { destroyVirtualMic, initVirtualMic } from "./native/virtualMic";
 import { BUILD_URL, createMainWindow, mainWindow } from "./native/window";
 
 // In Flatpak, we have to update the temp dir to a shared directory across host and sandbox;
@@ -126,6 +126,16 @@ if (acquiredLock) {
       }
 
       return { action: "deny" };
+    });
+  });
+
+  let readyToQuit = false;
+  app.on("will-quit", (e) => {
+    if (readyToQuit) return;
+    e.preventDefault();
+    destroyVirtualMic().finally(() => {
+      readyToQuit = true;
+      app.quit();
     });
   });
 } else {

@@ -15,6 +15,7 @@ import windowIconAsset from "../../assets/desktop/icon.png?asset";
 
 import { config } from "./config";
 import { updateTrayMenu } from "./tray";
+import { startVirtualMic } from "./virtualMic";
 
 // global reference to main window
 export let mainWindow: BrowserWindow;
@@ -196,7 +197,16 @@ export function createMainWindow() {
 
   // Create display media request handler
   session.defaultSession.setDisplayMediaRequestHandler(
-    (request, callback) => {
+    (request, originalCallback) => {
+      const callback = async (streams: Electron.Streams) => {
+        try {
+          if (streams.video) await startVirtualMic();
+        } catch (e) {
+          console.error("Virtual mic setup error", e);
+        } finally {
+          originalCallback(streams);
+        }
+      };
       desktopCapturer
         .getSources({ types: ["screen", "window"], fetchWindowIcons: true })
         .then((sources) => {

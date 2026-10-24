@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.6.0](https://github.com/stoatchat/for-desktop/compare/v1.5.4...v1.6.0) (2026-10-24)
+
+
+### Features
+
+* web handoff scheme ([#344](https://github.com/stoatchat/for-desktop/issues/344)) ([91d4a7a](https://github.com/stoatchat/for-desktop/commit/91d4a7a1581dcf43ca15fc1fcb3d255fddb2ab2a))
+
+
+### Bug Fixes
+
+* Don't flag errors on ?asset imports anymore ([#340](https://github.com/stoatchat/for-desktop/issues/340)) ([0f8ae71](https://github.com/stoatchat/for-desktop/commit/0f8ae71d69ce9e1bada10750c5e2490308785bbc))
+* Lazy virtual mic and cleaner teardown ([#341](https://github.com/stoatchat/for-desktop/issues/341)) ([04296b8](https://github.com/stoatchat/for-desktop/commit/04296b86a8541c1e104fc5b06be13ae3e0ab65e5))
+* register window control handlers once ([#345](https://github.com/stoatchat/for-desktop/issues/345)) ([d608080](https://github.com/stoatchat/for-desktop/commit/d60808092a06fe51243b4878cb55284128211359))
+
 ## [1.5.4](https://github.com/stoatchat/for-desktop/compare/v1.5.3...v1.5.4) (2026-09-15)
 
 

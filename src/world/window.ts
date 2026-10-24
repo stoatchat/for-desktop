@@ -2,6 +2,21 @@ import { contextBridge, ipcRenderer } from "electron";
 
 import { version } from "../../package.json";
 
+// stoat:// links wait in the main process until the app is ready for them,
+// so a reload before then loses nothing
+let onNavigate: ((path: string) => void) | undefined;
+async function takeNavigation() {
+  const pending: { id: number; target: string } | null =
+    await ipcRenderer.invoke("takeNavigation");
+  if (pending && onNavigate) {
+    onNavigate(pending.target);
+    ipcRenderer.send("navigationDone", pending.id);
+  }
+}
+ipcRenderer.on("navigate", () => {
+  if (onNavigate) void takeNavigation();
+});
+
 contextBridge.exposeInMainWorld("native", {
   versions: {
     node: () => process.versions.node,
@@ -35,4 +50,9 @@ contextBridge.exposeInMainWorld("native", {
 
   isWayland: () => ipcRenderer.invoke("getIsWayland"),
   destroyVirtualMic: () => ipcRenderer.invoke("destroyVirtualMic"),
+
+  onNavigate: (callback: (path: string) => void) => {
+    onNavigate = callback;
+    void takeNavigation();
+  },
 });

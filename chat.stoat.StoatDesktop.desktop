@@ -1,11 +1,12 @@
 [Desktop Entry]
 Name=Stoat
 Comment=Open source, user-first chat platform
-Exec=stoat-desktop
+Exec=stoat-desktop %U
 Terminal=false
 Type=Application
 Icon=chat.stoat.StoatDesktop
 Categories=Network;InstantMessaging
 StartupWMClass=stoat-desktop
+MimeType=x-scheme-handler/stoat;
 X-Desktop-File-Install-Version=0.26
 X-Flatpak=chat.stoat.StoatDesktop

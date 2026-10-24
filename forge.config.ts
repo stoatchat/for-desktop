@@ -54,6 +54,8 @@ const makers: ForgeConfig["makers"] = [
         "512x512": `${ASSET_DIR}/hicolor/512x512.png`,
       } as unknown,
       categories: ["Network"],
+      // open stoat:// links
+      mimeType: ["x-scheme-handler/stoat"],
       modules: [
         // use the latest zypak -- Electron sandboxing for Flatpak
         {
@@ -100,6 +102,8 @@ const config: ForgeConfig = {
     asar: true,
     name: STRINGS.name,
     executableName: STRINGS.execName,
+    // open stoat:// links (on mac)
+    protocols: [{ name: STRINGS.name, schemes: ["stoat"] }],
     icon:
       process.platform === "darwin"
         ? `${ASSET_DIR}/icon.icon`

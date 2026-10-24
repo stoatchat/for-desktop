@@ -263,18 +263,21 @@ export function createMainWindow() {
     { useSystemPicker: true },
   );
 
-  // push world events to the window
-  ipcMain.on("minimise", () => mainWindow.minimize());
-  ipcMain.on("maximise", () =>
-    mainWindow.isMaximized() ? mainWindow.unmaximize() : mainWindow.maximize(),
-  );
-  ipcMain.on("close", () => mainWindow.close());
-
   // mainWindow.webContents.openDevTools();
 
   // let i = 0;
   // setInterval(() => setBadgeCount((++i % 30) + 1), 1000);
 }
+
+// Push world events to the window
+//
+// The window can in theory be recreated, and this is done in practice on macOS,
+// so this is registered app-wide
+ipcMain.on("minimise", () => mainWindow?.minimize());
+ipcMain.on("maximise", () =>
+  mainWindow?.isMaximized() ? mainWindow.unmaximize() : mainWindow?.maximize(),
+);
+ipcMain.on("close", () => mainWindow?.close());
 
 /**
  * Quit the entire app

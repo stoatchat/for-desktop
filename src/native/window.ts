@@ -258,7 +258,8 @@ export function createMainWindow() {
               };
             }),
           );
-        });
+        })
+        .catch(() => originalCallback(null));
     },
     { useSystemPicker: true },
   );

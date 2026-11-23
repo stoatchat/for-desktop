@@ -1,6 +1,8 @@
 import { contextBridge, ipcRenderer } from "electron";
 
-let config: DesktopConfig;
+let config: DesktopConfig = ipcRenderer.sendSync(
+  "config:sync",
+) as DesktopConfig;
 
 ipcRenderer.on("config", (_, data) => (config = data));
 

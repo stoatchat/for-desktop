@@ -50,7 +50,7 @@ const schema = {
   } as JSONSchema.Object,
 };
 
-const store = new Store({
+const store = new Store<DesktopConfig>({
   schema,
   defaults: {
     firstLaunch: true,
@@ -67,15 +67,15 @@ const store = new Store({
       height: 0,
       isMaximised: false,
     },
-  } as DesktopConfig,
+  },
 });
 
 /**
  * Shim for `electron-store` because typings are broken
  */
 class Config {
-  sync() {
-    mainWindow.webContents.send("config", {
+  get snapshot(): DesktopConfig {
+    return {
       firstLaunch: this.firstLaunch,
       customFrame: this.customFrame,
       minimiseToTray: this.minimiseToTray,
@@ -84,7 +84,11 @@ class Config {
       hardwareAcceleration: this.hardwareAcceleration,
       discordRpc: this.discordRpc,
       windowState: this.windowState,
-    });
+    };
+  }
+
+  sync() {
+    mainWindow.webContents.send("config", this.snapshot);
   }
 
   get firstLaunch() {
@@ -216,4 +220,8 @@ ipcMain.on("config", (_, newConfig: Partial<DesktopConfig>) => {
   Object.entries(newConfig).forEach(
     ([key, value]) => (config[key as keyof DesktopConfig] = value as never),
   );
+});
+
+ipcMain.on("config:sync", (event) => {
+  event.returnValue = config.snapshot;
 });

@@ -19,10 +19,8 @@ export const isWayland =
 
 ipcMain.handle("getIsWayland", () => isWayland);
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
 let setupVirtualMic = async () => {};
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
 let teardownVirtualMic = async () => {};
 
 export async function startVirtualMic() {
@@ -51,7 +49,7 @@ export async function initVirtualMic() {
       destroyObject,
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore This module may not be found on non-linux builds.
-    } = await import("node-pipewire"); //eslint-disable-line
+    } = await import("node-pipewire");
 
     const appName = app.getName();
     let pwThreadStarted = false;

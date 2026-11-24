@@ -32,7 +32,7 @@ export async function initDiscordRpc() {
     rpc.on("disconnected", reconnect);
 
     rpc.login({ clientId: "872068124005007420" });
-  } catch (err) {
+  } catch {
     reconnect();
   }
 }

@@ -6,6 +6,7 @@ import { BrowserWindow, Notification, app, shell } from "electron";
 import started from "electron-squirrel-startup";
 
 import { initAutoLaunch } from "./native/autoLaunch";
+import { initBadges } from "./native/badges";
 import { config } from "./native/config";
 import {
   findDeepLink,
@@ -59,8 +60,12 @@ const onNotifyUser = (_info: IUpdateInfo) => {
 };
 
 if (acquiredLock) {
-  // start auto update logic
-  updateElectronApp({ onNotifyUser });
+  if (process.platform === "linux") {
+    app.setDesktopName("chat.stoat.StoatDesktop");
+  } else {
+    // start auto update logic
+    updateElectronApp({ onNotifyUser });
+  }
 
   // facilitate stoat:// links
   registerProtocol();
@@ -94,6 +99,7 @@ if (acquiredLock) {
     initDiscordRpc();
     initVirtualMic();
     initAutoLaunch();
+    initBadges();
 
     // follow the link the app was started with; after the tray exists, as
     // showing the window updates the tray menu

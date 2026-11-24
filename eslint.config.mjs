@@ -12,9 +12,6 @@ export default defineConfig([
       "**/dist/**",
       "**/out/**",
       "**/.vite/**",
-
-      // local caches (pnpm store, corepack, etc.)
-      "**/.cache/**",
     ],
   },
   {

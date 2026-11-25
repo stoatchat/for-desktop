@@ -1,15 +1,16 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "commonjs",
-    "allowJs": true,
-    "skipLibCheck": true,
+    "strict": true,
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "noImplicitAny": true,
-    "sourceMap": true,
-    "baseUrl": ".",
-    "outDir": "dist",
-    "moduleResolution": "node",
+    "noEmit": true,
+    "isolatedModules": true,
     "resolveJsonModule": true,
-  }
+    "skipLibCheck": true
+  },
+  "include": ["src", "*.ts"],
+  "exclude": ["out", ".vite", ".cache", "dist", "assets"]
 }

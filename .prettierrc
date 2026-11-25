@@ -1,15 +1,7 @@
 {
   "tabWidth": 2,
   "useTabs": false,
-  "plugins": [
-    "@trivago/prettier-plugin-sort-imports"
-  ],
-  "importOrder": [
-    "<THIRD_PARTY_MODULES>",
-    "^electron",
-    "^\\.\\.",
-    "^[./]"
-  ],
-  "importOrderSeparation": true,
-  "importOrderSortSpecifiers": true
+  "plugins": ["prettier-plugin-organize-imports"],
+  "organizeImportsTypeOrder": "first",
+  "endOfLine": "auto"
 }

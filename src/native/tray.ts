@@ -7,7 +7,7 @@ import { version } from "../../package.json";
 import { mainWindow, quitApp } from "./window";
 
 // internal tray state
-let tray: Tray = null;
+let tray: Tray | undefined;
 
 // Create and resize tray icon for macOS
 function createTrayIcon() {
@@ -38,7 +38,7 @@ export function initTray() {
 }
 
 export function updateTrayMenu() {
-  tray.setContextMenu(
+  tray!.setContextMenu(
     Menu.buildFromTemplate([
       { label: "Stoat for Desktop", type: "normal", enabled: false },
       {

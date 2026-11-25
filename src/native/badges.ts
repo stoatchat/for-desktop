@@ -58,7 +58,7 @@ export async function setBadgeCount(count: number) {
 
       break;
     case "darwin":
-      app.dock.setBadge(
+      app.dock?.setBadge(
         count === -1 ? "•" : count === 0 ? "" : count.toString(),
       );
 

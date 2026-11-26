@@ -21,7 +21,7 @@ def changelog_section(version: str) -> tuple[str | None, list[tuple[str, list[st
     """Return (date, [(heading, [items])]) for `version` from CHANGELOG.md."""
     text = CHANGELOG.read_text(encoding="utf-8")
     head = re.search(
-        rf"^## \[?{re.escape(version)}\]?.*?(?:\((\d{{4}}-\d{{2}}-\d{{2}})\))?\s*$",
+        rf"^## \[?{re.escape(version)}(?![\w.])\]?.*?(?:\((\d{{4}}-\d{{2}}-\d{{2}})\))?\s*$",
         text,
         re.M,
     )

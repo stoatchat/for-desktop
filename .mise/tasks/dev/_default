@@ -1,5 +1,34 @@
 #!/usr/bin/env bash
-#MISE description="Run the desktop app in dev mode"
-set -e
+#MISE description="Run the desktop app in dev mode (auto-detects a local for-web dev server)"
+#USAGE arg "[server]" help="App server: auto (default, local for-web dev server if running, else production), dev, or prod" {
+#USAGE choices "auto" "dev" "prod"
+#USAGE }
+set -euo pipefail
 
-pnpm run start
+# where the for-web dev server (and production) are expected to be
+DEV_URL="${STOAT_WEB_URL:-http://localhost:5173}"
+PROD_URL="https://stoat.chat/app"
+
+run() {
+  exec pnpm exec electron-forge start -- --no-sandbox "$@"
+}
+
+case "${usage_server:-auto}" in
+  dev)
+    echo "→ pointing at local for-web dev server: $DEV_URL"
+    run --force-server="$DEV_URL"
+    ;;
+  prod)
+    echo "→ pointing at production: $PROD_URL"
+    run
+    ;;
+  auto)
+    if curl -sf --max-time 2 -o /dev/null "$DEV_URL"; then
+      echo "→ for-web dev server detected at $DEV_URL (force production with: mise dev prod)"
+      run --force-server="$DEV_URL"
+    else
+      echo "→ no for-web dev server at $DEV_URL, using production: $PROD_URL"
+      run
+    fi
+    ;;
+esac

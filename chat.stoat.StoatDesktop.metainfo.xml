@@ -9,8 +9,7 @@
   <summary>Open source, user-first chat platform</summary>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>AGPL-3.0</project_license>
-  <icon type="remote" height="256" width="256">
-    https://raw.githubusercontent.com/stoatchat/assets/f106946659af67ad4f008588ac51570029b2fd47/desktop/icon.png</icon>
+  <icon type="stock">chat.stoat.StoatDesktop</icon>
   <description>
     <p>Stoat is an open source, user-first chat platform. Send messages, share
       images, mention users, and join voice channels — all from a native desktop

@@ -60,7 +60,7 @@ const onNotifyUser = (_info: IUpdateInfo) => {
 
 if (acquiredLock) {
   // start auto update logic
-  updateElectronApp({ onNotifyUser });
+  if (!process.env.FLATPAK_ID) updateElectronApp({ onNotifyUser });
 
   // facilitate stoat:// links
   registerProtocol();

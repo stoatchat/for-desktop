@@ -100,6 +100,9 @@ const makers: ForgeConfig["makers"] = [
 const config: ForgeConfig = {
   packagerConfig: {
     asar: true,
+    ...(process.env.ELECTRON_ZIP_DIR
+      ? { electronZipDir: process.env.ELECTRON_ZIP_DIR }
+      : {}),
     name: STRINGS.name,
     executableName: STRINGS.execName,
     // open stoat:// links (on mac)

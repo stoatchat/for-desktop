@@ -21,6 +21,7 @@ jobs:
     outputs:
       release_created: ${{ steps.rp.outputs.release_created }}
       release_version: ${{ steps.rp.outputs.version }}
+      pr: ${{ steps.rp.outputs.pr }}
     steps:
       - id: app-token
         uses: actions/create-github-app-token@v2
@@ -32,6 +33,47 @@ jobs:
         with:
           token: ${{ steps.app-token.outputs.token }}
           config-file: release-please-config.json
+
+  update-metainfo:
+    name: Sync metainfo into release PR
+    needs: release-please
+    if: needs.release-please.outputs.pr != ''
+    runs-on: ubuntu-latest
+    steps:
+      - id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.GH_STOAT_RELEASE_APP_ID }}
+          private-key: ${{ secrets.GH_STOAT_RELEASE_APP_PRIVATE_KEY }}
+
+      - name: Resolve release PR branch
+        id: branch
+        env:
+          PR_JSON: ${{ needs.release-please.outputs.pr }}
+        run: echo "name=$(jq -r .headBranchName <<< "$PR_JSON")" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout release PR branch
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ steps.branch.outputs.name }}
+          token: ${{ steps.app-token.outputs.token }}
+
+      - name: Add release entry to metainfo
+        run: python3 .github/scripts/update-metainfo.py
+
+      - name: Validate metainfo
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq appstream
+          appstreamcli validate --no-net --explain chat.stoat.StoatDesktop.metainfo.xml
+
+      - name: Commit if changed
+        run: |
+          git diff --quiet && exit 0
+          git config user.name "${{ steps.app-token.outputs.app-slug }}[bot]"
+          git config user.email "${{ steps.app-token.outputs.app-slug }}[bot]@users.noreply.github.com"
+          git commit -am "chore: update metainfo release entry"
+          git push
 
   publish-release:
     name: Publish App

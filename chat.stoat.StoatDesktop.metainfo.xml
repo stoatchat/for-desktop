@@ -15,6 +15,11 @@
       images, mention users, and join voice channels — all from a native desktop
       application.</p>
   </description>
+  <categories>
+    <category>Network</category>
+    <category>InstantMessaging</category>
+    <category>Chat</category>
+  </categories>
   <screenshots>
     <screenshot type="default">
       <caption>Main window</caption>

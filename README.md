@@ -1,13 +1,13 @@
 <div align="center">
 <h1>
   Stoat for Desktop
-  
-  [![Stars](https://img.shields.io/github/stars/stoatchat/for-desktop?style=flat-square&logoColor=white)](https://github.com/stoatchat/for-desktop/stargazers)
-  [![Forks](https://img.shields.io/github/forks/stoatchat/for-desktop?style=flat-square&logoColor=white)](https://github.com/stoatchat/for-desktop/network/members)
-  [![Pull Requests](https://img.shields.io/github/issues-pr/stoatchat/for-desktop?style=flat-square&logoColor=white)](https://github.com/stoatchat/for-desktop/pulls)
-  [![Issues](https://img.shields.io/github/issues/stoatchat/for-desktop?style=flat-square&logoColor=white)](https://github.com/stoatchat/for-desktop/issues)
-  [![Contributors](https://img.shields.io/github/contributors/stoatchat/for-desktop?style=flat-square&logoColor=white)](https://github.com/stoatchat/for-desktop/graphs/contributors)
-  [![License](https://img.shields.io/github/license/stoatchat/for-desktop?style=flat-square&logoColor=white)](https://github.com/stoatchat/for-desktop/blob/main/LICENSE)
+
+[![Stars](https://img.shields.io/github/stars/stoatchat/for-desktop?style=flat-square&logoColor=white)](https://github.com/stoatchat/for-desktop/stargazers)
+[![Forks](https://img.shields.io/github/forks/stoatchat/for-desktop?style=flat-square&logoColor=white)](https://github.com/stoatchat/for-desktop/network/members)
+[![Pull Requests](https://img.shields.io/github/issues-pr/stoatchat/for-desktop?style=flat-square&logoColor=white)](https://github.com/stoatchat/for-desktop/pulls)
+[![Issues](https://img.shields.io/github/issues/stoatchat/for-desktop?style=flat-square&logoColor=white)](https://github.com/stoatchat/for-desktop/issues)
+[![Contributors](https://img.shields.io/github/contributors/stoatchat/for-desktop?style=flat-square&logoColor=white)](https://github.com/stoatchat/for-desktop/graphs/contributors)
+[![License](https://img.shields.io/github/license/stoatchat/for-desktop?style=flat-square&logoColor=white)](https://github.com/stoatchat/for-desktop/blob/main/LICENSE)
 </h1>
 Application for Windows, macOS, and Linux.
 </div>
@@ -46,7 +46,12 @@ mise install
 mise install:frozen
 
 # start the application
+# (points at a local for-web dev server if one is running, e.g. via
+# `mise dev` in a for-web checkout, otherwise falls back to production)
 mise dev
+# ... or force a specific backend
+mise run dev dev   # always the local for-web dev server
+mise run dev prod  # always the production deployment
 # ... or build the bundle
 mise build
 # ... or build all distributables
@@ -56,8 +61,10 @@ mise make
 Various useful commands for development testing:
 
 ```bash
-# connect to the development server
-mise exec -- pnpm start -- --force-server http://localhost:5173
+# connect to the local for-web development server
+mise run dev dev
+# ... or point at a non-default URL
+STOAT_WEB_URL=https://beta.stoat.chat mise run dev dev
 
 # test the flatpak (after `make`)
 mise exec -- pnpm install:flatpak

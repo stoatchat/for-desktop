@@ -9,13 +9,17 @@
   <summary>Open source, user-first chat platform</summary>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>AGPL-3.0</project_license>
-  <icon type="remote" height="256" width="256">
-    https://raw.githubusercontent.com/stoatchat/assets/f106946659af67ad4f008588ac51570029b2fd47/desktop/icon.png</icon>
+  <icon type="stock">chat.stoat.StoatDesktop</icon>
   <description>
     <p>Stoat is an open source, user-first chat platform. Send messages, share
       images, mention users, and join voice channels — all from a native desktop
       application.</p>
   </description>
+  <categories>
+    <category>Network</category>
+    <category>InstantMessaging</category>
+    <category>Chat</category>
+  </categories>
   <screenshots>
     <screenshot type="default">
       <caption>Main window</caption>
@@ -23,6 +27,126 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release date="2026-09-15" version="1.5.4">
+      <description>
+        <p>Bug Fixes:</p>
+        <ul>
+          <li>Ensure that autolaunch is configured (#294)</li>
+          <li>Remove tmpdir env as it's not needed anymore (#295)</li>
+          <li>Update to electron 44 and fix flatpak icon (#312)</li>
+        </ul>
+      </description>
+      <url type="details">https://github.com/stoatchat/for-desktop/releases/tag/v1.5.4</url>
+    </release>
+    <release date="2026-08-19" version="1.5.3">
+      <description>
+        <p>Bug Fixes:</p>
+        <ul>
+          <li>Add temp appimage workflow, fix some ci/cd bugs (#285)</li>
+        </ul>
+        <p>Reverts:</p>
+        <ul>
+          <li>Add Mic and Webcam Entitlements (#259) (#283)</li>
+        </ul>
+      </description>
+      <url type="details">https://github.com/stoatchat/for-desktop/releases/tag/v1.5.3</url>
+    </release>
+    <release date="2026-08-17" version="1.5.2">
+      <description>
+        <p>Bug Fixes:</p>
+        <ul>
+          <li>Remove node-pipewire submodule and actually package native dep (#280)</li>
+        </ul>
+      </description>
+      <url type="details">https://github.com/stoatchat/for-desktop/releases/tag/v1.5.2</url>
+    </release>
+    <release date="2026-08-16" version="1.5.1">
+      <description>
+        <p>Bug Fixes:</p>
+        <ul>
+          <li>Release please failed to add a remote (#275)</li>
+          <li>Release please failed to add a remote and used wrong matrix</li>
+          <li>upload appimage zsyncs too (#279)</li>
+        </ul>
+      </description>
+      <url type="details">https://github.com/stoatchat/for-desktop/releases/tag/v1.5.1</url>
+    </release>
+    <release date="2026-08-16" version="1.5.0">
+      <description>
+        <p>Features:</p>
+        <ul>
+          <li>Add a virtual microphone for audio streaming on linux (#266)</li>
+          <li>Add AppImage build flow to release (#271)</li>
+          <li>Add flatpak build to release-please and update flatpak (#228)</li>
+          <li>Add Mic and Webcam Entitlements for MacOS</li>
+        </ul>
+        <p>Bug Fixes:</p>
+        <ul>
+          <li>Add Mic and Webcam Entitlements (#259)</li>
+          <li>Add this missing ' (#274)</li>
+          <li>skip maximise if starting to tray (#183)</li>
+          <li>Update electron to remove stream echo on windows and mac</li>
+          <li>Use liquid glass icon on MacOS (#258)</li>
+          <li>What if we just reloaded every startup, would that kill cache? (#269)</li>
+        </ul>
+      </description>
+      <url type="details">https://github.com/stoatchat/for-desktop/releases/tag/v1.5.0</url>
+    </release>
+    <release date="2026-07-17" version="1.4.2">
+      <description>
+        <p>Bug Fixes:</p>
+        <ul>
+          <li>Don't send audio as undefined and instead omit it (#241)</li>
+        </ul>
+      </description>
+      <url type="details">https://github.com/stoatchat/for-desktop/releases/tag/v1.4.2</url>
+    </release>
+    <release date="2026-07-16" version="1.4.1">
+      <description>
+        <p>Bug Fixes:</p>
+        <ul>
+          <li>Do not enable autostart on first launch (#237)</li>
+          <li>make electron use loopback instead of loopbackwithmute (#236)</li>
+        </ul>
+      </description>
+      <url type="details">https://github.com/stoatchat/for-desktop/releases/tag/v1.4.1</url>
+    </release>
+    <release date="2026-06-16" version="1.4.0">
+      <description>
+        <p>Features:</p>
+        <ul>
+          <li>enable screen sharing and integrate screen picker (#207)</li>
+        </ul>
+        <p>Bug Fixes:</p>
+        <ul>
+          <li>flatpak: change screenshot path into an url in the metainfo file (#195)</li>
+        </ul>
+      </description>
+      <url type="details">https://github.com/stoatchat/for-desktop/releases/tag/v1.4.0</url>
+    </release>
+    <release date="2026-02-18" version="1.3.0">
+      <description>
+        <p>Features:</p>
+        <ul>
+          <li>minimise-to-tray-on-startup (#126)</li>
+          <li>Reload/Refresh shortcut (#119)</li>
+        </ul>
+        <p>Bug Fixes:</p>
+        <ul>
+          <li>Add common zoom-reset shortcut. (#112)</li>
+          <li>allow CTRL+"+" to also zoom in. (#108)</li>
+          <li>App-maximized-2nd-monitor</li>
+          <li>don't re-enable abutostart</li>
+          <li>firstLaunch = false after initial setup (#131)</li>
+          <li>flatpak icons not building correctly and wayland support (#132)</li>
+          <li>replace default dialog with notification (#98)</li>
+          <li>toggle window visibility on tray click instead of always showing (#103)</li>
+          <li>try to restore maximised windows to correct display (#92)</li>
+          <li>use template icon for macOS tray, use higher res icons for other platforms (#130)</li>
+        </ul>
+      </description>
+      <url type="details">https://github.com/stoatchat/for-desktop/releases/tag/v1.3.0</url>
+    </release>
     <release date="2026-02-14" version="1.2.0">
       <description>
         <p>Features:</p>

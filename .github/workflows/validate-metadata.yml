@@ -1,0 +1,50 @@
+name: Validate Metadata
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "chat.stoat.StoatDesktop.metainfo.xml"
+      - "chat.stoat.StoatDesktop.desktop"
+      - ".github/scripts/update-metainfo.py"
+      - ".github/workflows/validate-metadata.yml"
+  pull_request:
+    paths:
+      - "chat.stoat.StoatDesktop.metainfo.xml"
+      - "chat.stoat.StoatDesktop.desktop"
+      - ".github/scripts/update-metainfo.py"
+      - ".github/workflows/validate-metadata.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate metainfo & desktop file
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq appstream desktop-file-utils
+
+      - name: Validate metainfo
+        run: appstreamcli validate --no-net --explain chat.stoat.StoatDesktop.metainfo.xml
+
+      - name: Validate desktop file
+        run: desktop-file-validate chat.stoat.StoatDesktop.desktop
+
+      - name: Current version has a release entry
+        run: |
+          version=$(jq -r .version package.json)
+          grep -q "version=\"$version\"" chat.stoat.StoatDesktop.metainfo.xml \
+            || { echo "::error file=chat.stoat.StoatDesktop.metainfo.xml::No <release> entry for $version"; exit 1; }
+
+      - name: Generator is a no-op on committed metainfo
+        run: |
+          python3 .github/scripts/update-metainfo.py
+          git diff --exit-code chat.stoat.StoatDesktop.metainfo.xml \
+            || { echo "::error::update-metainfo.py would change the metainfo; run it locally and commit"; exit 1; }

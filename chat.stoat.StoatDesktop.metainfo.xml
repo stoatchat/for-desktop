@@ -27,6 +27,23 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release date="2026-11-27" version="1.6.0">
+      <description>
+        <p>Features:</p>
+        <ul>
+          <li>web handoff scheme (#344)</li>
+        </ul>
+        <p>Bug Fixes:</p>
+        <ul>
+          <li>Catch the error on getSources for when the wayland portal is cancel (#349)</li>
+          <li>Don't flag errors on ?asset imports anymore (#340)</li>
+          <li>Lazy virtual mic and cleaner teardown (#341)</li>
+          <li>register window control handlers once (#345)</li>
+          <li>Sync the config on preload to prevent race (#352)</li>
+        </ul>
+      </description>
+      <url type="details">https://github.com/stoatchat/for-desktop/releases/tag/v1.6.0</url>
+    </release>
     <release date="2026-09-15" version="1.5.4">
       <description>
         <p>Bug Fixes:</p>

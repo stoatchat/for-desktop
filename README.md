@@ -45,6 +45,9 @@ mise install
 # install all packages
 mise install:frozen
 
+# update the assets
+git -c submodule."assets".update=checkout submodule update --init assets
+
 # start the application
 # (points at a local for-web dev server if one is running, e.g. via
 # `mise dev` in a for-web checkout, otherwise falls back to production)
